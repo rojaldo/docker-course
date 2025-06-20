@@ -1,0 +1,30 @@
+services:
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+    networks:
+      - mynetwork
+  app:
+    image: tu-imagen-app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - mynetwork
+    depends_on:
+      - nginx
+
+  watchdog:
+    image: buanet/watchdog
+    environment:
+      - WATCHDOG_INTERVAL=60
+      - WATCHDOG_HEALTHCHECK=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
