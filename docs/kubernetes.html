@@ -6570,6 +6570,14 @@ helm install prometheus prometheus-community/kube-prometheus-stack</code></pre>
 # Luego abre http://localhost:3000 en tu navegador</code></pre>
 </div>
 </div>
+<div class="listingblock">
+<div class="title">Para obtener los datos de acceso:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-user}" | base64 --decode; echo
+kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
+----</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p>El usuario y contraseña por defecto suelen ser <code>admin</code> / <code>prom-operator</code> (puedes consultarlo en los secrets del namespace).</p>
 </div>
@@ -11135,7 +11143,7 @@ helm install mi-mysql bitnami/mysql</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-26 09:25:34 +0200
+Last updated 2025-09-26 09:59:22 +0200
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

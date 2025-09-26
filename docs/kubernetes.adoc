@@ -3813,6 +3813,12 @@ kubectl port-forward svc/prometheus-grafana 3000:80
 # Luego abre http://localhost:3000 en tu navegador
 ----
 
+.Para obtener los datos de acceso:
+[source,bash]
+kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-user}" | base64 --decode; echo
+kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
+----
+
 El usuario y contraseña por defecto suelen ser `admin` / `prom-operator` (puedes consultarlo en los secrets del namespace).
 
 ==== Dashboards recomendados
