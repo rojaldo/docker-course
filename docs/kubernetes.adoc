@@ -3089,6 +3089,18 @@ El *Role-Based Access Control* (RBAC) es el mecanismo principal de Kubernetes pa
 - **RoleBinding**: Asocia un Role a un usuario, grupo o ServiceAccount dentro de un namespace.
 - **ClusterRoleBinding**: Asocia un ClusterRole a usuarios, grupos o ServiceAccounts a nivel de clúster.
 
+
+.Los verbos comunes en las reglas de RBAC incluyen:
+- `get`: Leer un recurso específico.
+- `list`: Listar todos los recursos de un tipo.
+- `watch`: Observar cambios en los recursos.
+- `create`: Crear un nuevo recurso.
+- `update`: Modificar un recurso existente.
+- `patch`: Aplicar cambios parciales a un recurso.
+- `delete`: Eliminar un recurso.
+- `deletecollection`: Eliminar múltiples recursos de un tipo.
+
+
 ==== Ejemplo básico de Role y RoleBinding
 
 Supón que quieres permitir que un usuario o ServiceAccount solo pueda listar y ver pods en el namespace `produccion`.
@@ -4117,15 +4129,18 @@ Helm es el gestor de paquetes más utilizado en Kubernetes. Permite definir, ins
 
 ==== ¿Qué es un chart de Helm?
 
-Un *chart* es un paquete que contiene:
+.Los conceptos de Helm son:
+* **Chart**: Un paquete que contiene todos los recursos necesarios para desplegar una aplicación en Kubernetes.
+* **Release**: Una instancia desplegada de un chart en un clúster.
+
+.Un *chart* es un paquete que contiene:
 - Plantillas YAML parametrizables para recursos de Kubernetes (Deployments, Services, ConfigMaps, etc.).
 - Un archivo `values.yaml` con los valores por defecto y configurables.
 - Metadatos (`Chart.yaml`) y documentación opcional (`README.md`).
 
 Esto permite desplegar aplicaciones con diferentes configuraciones de forma sencilla y repetible.
 
-==== Ventajas de usar Helm
-
+.Ventajas de usar Helm
 - Instalación y actualización sencilla de aplicaciones complejas.
 - Parametrización de despliegues mediante archivos de valores.
 - Gestión de dependencias entre aplicaciones.
