@@ -766,7 +766,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_introducción_a_helm">Introducción a Helm</a>
 <ul class="sectlevel3">
 <li><a href="#_qué_es_un_chart_de_helm">¿Qué es un chart de Helm?</a></li>
-<li><a href="#_ventajas_de_usar_helm">Ventajas de usar Helm</a></li>
 <li><a href="#_instalación_de_helm">Instalación de Helm</a></li>
 <li><a href="#_primeros_pasos_con_helm">Primeros pasos con Helm</a></li>
 <li><a href="#_estructura_básica_de_un_chart">Estructura básica de un chart</a></li>
@@ -5505,6 +5504,35 @@ spec:
 </li>
 </ul>
 </div>
+<div class="ulist">
+<div class="title">Los verbos comunes en las reglas de RBAC incluyen:</div>
+<ul>
+<li>
+<p><code>get</code>: Leer un recurso específico.</p>
+</li>
+<li>
+<p><code>list</code>: Listar todos los recursos de un tipo.</p>
+</li>
+<li>
+<p><code>watch</code>: Observar cambios en los recursos.</p>
+</li>
+<li>
+<p><code>create</code>: Crear un nuevo recurso.</p>
+</li>
+<li>
+<p><code>update</code>: Modificar un recurso existente.</p>
+</li>
+<li>
+<p><code>patch</code>: Aplicar cambios parciales a un recurso.</p>
+</li>
+<li>
+<p><code>delete</code>: Eliminar un recurso.</p>
+</li>
+<li>
+<p><code>deletecollection</code>: Eliminar múltiples recursos de un tipo.</p>
+</li>
+</ul>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_ejemplo_básico_de_role_y_rolebinding">Ejemplo básico de Role y RoleBinding</h4>
@@ -7030,19 +7058,36 @@ receivers:
 </div>
 <div class="sect3">
 <h4 id="_qué_es_un_chart_de_helm">¿Qué es un chart de Helm?</h4>
-<div class="paragraph">
-<p>Un <strong>chart</strong> es un paquete que contiene:
-- Plantillas YAML parametrizables para recursos de Kubernetes (Deployments, Services, ConfigMaps, etc.).
-- Un archivo <code>values.yaml</code> con los valores por defecto y configurables.
-- Metadatos (<code>Chart.yaml</code>) y documentación opcional (<code>README.md</code>).</p>
+<div class="ulist">
+<div class="title">Los conceptos de Helm son:</div>
+<ul>
+<li>
+<p><strong>Chart</strong>: Un paquete que contiene todos los recursos necesarios para desplegar una aplicación en Kubernetes.</p>
+</li>
+<li>
+<p><strong>Release</strong>: Una instancia desplegada de un chart en un clúster.</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Un <strong>chart</strong> es un paquete que contiene:</div>
+<ul>
+<li>
+<p>Plantillas YAML parametrizables para recursos de Kubernetes (Deployments, Services, ConfigMaps, etc.).</p>
+</li>
+<li>
+<p>Un archivo <code>values.yaml</code> con los valores por defecto y configurables.</p>
+</li>
+<li>
+<p>Metadatos (<code>Chart.yaml</code>) y documentación opcional (<code>README.md</code>).</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>Esto permite desplegar aplicaciones con diferentes configuraciones de forma sencilla y repetible.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_ventajas_de_usar_helm">Ventajas de usar Helm</h4>
 <div class="ulist">
+<div class="title">Ventajas de usar Helm</div>
 <ul>
 <li>
 <p>Instalación y actualización sencilla de aplicaciones complejas.</p>
@@ -11143,7 +11188,7 @@ helm install mi-mysql bitnami/mysql</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-26 09:59:22 +0200
+Last updated 2025-09-26 12:34:40 +0200
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
