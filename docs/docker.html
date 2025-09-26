@@ -1190,7 +1190,16 @@ VBoxManage createhd --filename "mi_vm.vdi" --size 10000</code></pre>
 <h4 id="_resumen_gráfico">Resumen gráfico</h4>
 <div class="listingblock">
 <div class="content">
-<pre>@startuml
+<pre>Failed to generate image: PlantUML preprocessing failed: [From &lt;input&gt; (line 4) ]
+
+@startuml
+actor Usuario
+Usuario -&gt; Docker: docker run nginx
+Docker -&gt; Kernel Host: Solicita recursos
+^^^^^
+ Syntax Error? (Assumed diagram type: sequence)
+
+@startuml
 actor Usuario
 Usuario -&gt; Docker: docker run nginx
 Docker -&gt; Kernel Host: Solicita recursos
@@ -1314,17 +1323,9 @@ Contenedor -&gt; Usuario: Servicio disponible
 </div>
 <div class="sect3">
 <h4 id="_resumen_gráfico_de_la_evolución">Resumen gráfico de la evolución</h4>
-<div class="listingblock">
+<div class="imageblock">
 <div class="content">
-<pre>@startuml
-:dotCloud;
-:dotCloud; -&gt; :Docker (2013);
-:Docker (2013); -&gt; :Docker 1.0 (2014);
-:Docker 1.0 (2014); -&gt; :Docker Compose/Swarm (2016);
-:Docker Compose/Swarm (2016); -&gt; :OCI (2017);
-:OCI (2017); -&gt; :Kubernetes Integration (2018);
-:Kubernetes Integration (2018); -&gt; :Docker Desktop (2020+);
-@enduml</pre>
+<img src="diag-plantuml-md5-accda3c711238914db555653ecbc0f74.svg" alt="Diagram" width="369" height="396">
 </div>
 </div>
 </div>
@@ -1364,9 +1365,22 @@ Contenedor -&gt; Usuario: Servicio disponible
 </div>
 <div class="sect3">
 <h4 id="_diagrama_de_arquitectura">Diagrama de arquitectura</h4>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>@startuml
+<pre>Failed to generate image: PlantUML preprocessing failed: [From &lt;input&gt; (line 8) ]
+
+@startuml
+actor Usuario
+Usuario -&gt; CLI: docker run, docker build, etc.
+CLI -&gt; API: Solicitudes REST
+API -&gt; Daemon: Procesamiento de solicitudes
+Daemon -&gt; Registry: pull/push imágenes
+Daemon -&gt; Contenedor: Crear/Iniciar/Detener
+Daemon -&gt; Volúmenes/Redes: Gestionar recursos
+^^^^^
+ Syntax Error? (Assumed diagram type: sequence)
+
+@startuml
 actor Usuario
 Usuario -&gt; CLI: docker run, docker build, etc.
 CLI -&gt; API: Solicitudes REST
@@ -1900,17 +1914,9 @@ docker rm miweb</code></pre>
 <div class="paragraph">
 <p>Cada imagen está formada por una serie de capas apiladas. Cada instrucción en un Dockerfile (como <code>RUN</code>, <code>COPY</code>, <code>ADD</code>) crea una nueva capa. Cuando se actualiza una imagen, solo se descargan las capas nuevas o modificadas.</p>
 </div>
-<div class="literalblock">
+<div class="imageblock">
 <div class="content">
-<pre>@startuml
-start
-:FROM ubuntu:22.04;
-:RUN apt-get update;
-:COPY . /app;
-:RUN pip install -r requirements.txt;
-:CMD ["python", "app.py"];
-stop
-@enduml</pre>
+<img src="diag-plantuml-md5-cfa66453dc13fb8ef7f4b8d844f313ce.svg" alt="Diagram" width="235" height="364">
 </div>
 </div>
 </div>
@@ -2240,18 +2246,9 @@ docker unpause mi_contenedor</code></pre>
 </div>
 <div class="sect3">
 <h4 id="_diagrama_del_ciclo_de_vida">Diagrama del ciclo de vida</h4>
-<div class="literalblock">
+<div class="imageblock">
 <div class="content">
-<pre>@startuml
-[*] --&gt; Creado
-Creado --&gt; EnEjecucion : start/run
-EnEjecucion --&gt; Pausado : pause
-Pausado --&gt; EnEjecucion : unpause
-EnEjecucion --&gt; Detenido : stop
-Detenido --&gt; EnEjecucion : start
-Detenido --&gt; Eliminado : rm
-EnEjecucion --&gt; Eliminado : rm -f
-@enduml</pre>
+<img src="diag-plantuml-md5-d22976453fda5919c034e4549ea08295.svg" alt="Diagram" width="316" height="530">
 </div>
 </div>
 </div>
@@ -8611,7 +8608,7 @@ jobs:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-06-19 09:31:05 +0200
+Last updated 2025-09-24 13:32:30 +0200
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

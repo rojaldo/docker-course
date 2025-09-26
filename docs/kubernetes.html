@@ -567,19 +567,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_plugins_de_red_cni">Plugins de red (CNI)</a></li>
 <li><a href="#_ejemplo_de_comunicación">Ejemplo de comunicación</a></li>
 <li><a href="#_políticas_de_red">Políticas de red</a></li>
-<li><a href="#_resumen_gráfico_4">Resumen gráfico</a></li>
 </ul>
 </li>
-<li><a href="#_proxies_y_balanceadores_de_carga">Proxies y balanceadores de carga</a>
-<ul class="sectlevel3">
-<li><a href="#_qué_es_un_proxy">¿Qué es un proxy?</a></li>
-<li><a href="#_qué_es_un_balanceador_de_carga">¿Qué es un balanceador de carga?</a></li>
-<li><a href="#_tipos_de_proxies_y_balanceadores_en_kubernetes">Tipos de proxies y balanceadores en Kubernetes</a></li>
-<li><a href="#_ejemplo_de_flujo_de_tráfico">Ejemplo de flujo de tráfico</a></li>
-<li><a href="#_ventajas_de_usar_proxies_y_balanceadores">Ventajas de usar proxies y balanceadores</a></li>
-<li><a href="#_resumen_gráfico_5">Resumen gráfico</a></li>
-</ul>
-</li>
+<li><a href="#_proxy">Proxy</a></li>
 <li><a href="#_políticas_de_red_en_kubernetes">Políticas de red en Kubernetes</a>
 <ul class="sectlevel3">
 <li><a href="#_qué_es_una_networkpolicy">¿Qué es una NetworkPolicy?</a></li>
@@ -597,7 +587,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ejemplo_de_recurso_ingress">Ejemplo de recurso Ingress</a></li>
 <li><a href="#_funcionamiento_general">Funcionamiento general</a></li>
 <li><a href="#_buenas_prácticas_3">Buenas prácticas</a></li>
-<li><a href="#_resumen_gráfico_6">Resumen gráfico</a></li>
 </ul>
 </li>
 <li><a href="#_service_mesh">Service Mesh</a>
@@ -619,7 +608,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ejemplo_de_exposición_usando_ingress">Ejemplo de exposición usando Ingress</a></li>
 <li><a href="#_ejemplo_de_service_tipo_externalname">Ejemplo de Service tipo ExternalName</a></li>
 <li><a href="#_buenas_prácticas_5">Buenas prácticas</a></li>
-<li><a href="#_resumen_gráfico_7">Resumen gráfico</a></li>
 </ul>
 </li>
 </ul>
@@ -656,7 +644,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_canary_deployment">Canary Deployment</a></li>
 <li><a href="#_ab_testing">A/B Testing</a></li>
 <li><a href="#_buenas_prácticas_9">Buenas prácticas</a></li>
-<li><a href="#_resumen_gráfico_8">Resumen gráfico</a></li>
 </ul>
 </li>
 <li><a href="#_autoscaling_basado_en_métricas">Autoscaling basado en métricas</a>
@@ -695,7 +682,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ejemplo_avanzado_permitir_tráfico_de_salida_solo_a_internet_2">Ejemplo avanzado: Permitir tráfico de salida solo a Internet</a></li>
 <li><a href="#_tipos_de_reglas_2">Tipos de reglas</a></li>
 <li><a href="#_buenas_prácticas_13">Buenas prácticas</a></li>
-<li><a href="#_diagrama_explicativo">Diagrama explicativo</a></li>
 </ul>
 </li>
 <li><a href="#_pod_security_policies">Pod Security Policies</a>
@@ -728,6 +714,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_exponer_la_interfaz_web_de_prometheus">Exponer la interfaz web de Prometheus</a></li>
 <li><a href="#_monitorización_de_aplicaciones_personalizadas">Monitorización de aplicaciones personalizadas</a></li>
 <li><a href="#_alertas_con_alertmanager">Alertas con Alertmanager</a></li>
+<li><a href="#_consultas_promql_prometheus_query_language">Consultas PromQL (Prometheus Query Language)</a></li>
 <li><a href="#_buenas_prácticas_16">Buenas prácticas</a></li>
 </ul>
 </li>
@@ -899,7 +886,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_canary_deployment_2">Canary Deployment</a></li>
 <li><a href="#_ab_testing_2">A/B Testing</a></li>
 <li><a href="#_buenas_prácticas_33">Buenas prácticas</a></li>
-<li><a href="#_resumen_gráfico_9">Resumen gráfico</a></li>
 </ul>
 </li>
 <li><a href="#_integración_con_herramientas_populares">Integración con herramientas populares</a>
@@ -2235,25 +2221,61 @@ spec:
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>La codificación del elemento schedule es la siguiente:
-- <code><strong></code>: Cada unidad de tiempo.
-- <code></strong>/n</code>: Cada n unidades de tiempo.
-- <code>n</code>: Cada n unidades de tiempo.
-- <code>n1,n2</code>: En los minutos, horas, días del mes, meses o días de la semana.
-- <code>n1-n2</code>: Desde n1 hasta n2 unidades de tiempo.
-- <code>?</code>: No especifica un valor.
-- <code>L</code>: Último día del mes o último día de la semana.
-- <code>W</code>: Día de la semana más cercano a una fecha específica.
-- <code>#</code>: Día de la semana específico (por ejemplo, <code>2#1</code> significa el primer lunes del mes).
-- <code>C</code>: Indica la zona horaria (desde Kubernetes 1.24).
-- <code>TZ</code>: Indica la zona horaria (desde Kubernetes 1.24).
-- <code>timeZone</code>: Indica la zona horaria (desde Kubernetes 1.24).
-- <code>@yearly</code>, <code>@annually</code>: Cada año.
-- <code>@monthly</code>: Cada mes.
-- <code>@weekly</code>: Cada semana.
-- <code>@daily</code>: Cada día.
-- <code>@hourly</code>: Cada hora.</p>
+<div class="ulist">
+<div class="title">La codificación del elemento schedule es la siguiente:</div>
+<ul>
+<li>
+<p><code>*</code>: Cada unidad de tiempo.</p>
+</li>
+<li>
+<p><code>*/n</code>: Cada n unidades de tiempo.</p>
+</li>
+<li>
+<p><code>n</code>: Cada n unidades de tiempo.</p>
+</li>
+<li>
+<p><code>n1,n2</code>: En los minutos, horas, días del mes, meses o días de la semana.</p>
+</li>
+<li>
+<p><code>n1-n2</code>: Desde n1 hasta n2 unidades de tiempo.</p>
+</li>
+<li>
+<p><code>?</code>: No especifica un valor.</p>
+</li>
+<li>
+<p><code>L</code>: Último día del mes o último día de la semana.</p>
+</li>
+<li>
+<p><code>W</code>: Día de la semana más cercano a una fecha específica.</p>
+</li>
+<li>
+<p><code>#</code>: Día de la semana específico (por ejemplo, <code>2#1</code> significa el primer lunes del mes).</p>
+</li>
+<li>
+<p><code>C</code>: Indica la zona horaria (desde Kubernetes 1.24).</p>
+</li>
+<li>
+<p><code>TZ</code>: Indica la zona horaria (desde Kubernetes 1.24).</p>
+</li>
+<li>
+<p><code>timeZone</code>: Indica la zona horaria (desde Kubernetes 1.24).</p>
+</li>
+<li>
+<p><code>@yearly</code>, <code>@annually</code>: Cada año.</p>
+</li>
+<li>
+<p><code>@monthly</code>: Cada mes.</p>
+</li>
+<li>
+<p><code>@weekly</code>: Cada semana.</p>
+</li>
+<li>
+<p><code>@daily</code>: Cada día.</p>
+</li>
+<li>
+<p><code>@hourly</code>: Cada hora.</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="title">Crear el CronJob:</div>
@@ -3750,16 +3772,16 @@ kubectl describe pvc &lt;nombre-del-pvc&gt;</code></pre>
 <div class="title">Kubernetes no implementa la red por sí mismo, sino que utiliza plugins CNI como:</div>
 <ul>
 <li>
-<p><strong>Calico</strong></p>
+<p><strong>Calico</strong>: Ofrece políticas de red avanzadas y soporte para redes de alto rendimiento.</p>
 </li>
 <li>
-<p><strong>Flannel</strong></p>
+<p><strong>Flannel</strong>: Proporciona una red superpuesta simple para contenedores.</p>
 </li>
 <li>
-<p><strong>Weave</strong></p>
+<p><strong>Weave</strong>: Permite la comunicación entre contenedores en diferentes hosts de manera sencilla.</p>
 </li>
 <li>
-<p><strong>Cilium</strong></p>
+<p><strong>Cilium</strong>: Utiliza eBPF para proporcionar seguridad y visibilidad en la red.</p>
 </li>
 </ul>
 </div>
@@ -3868,7 +3890,7 @@ spec:
 <h5 id="_diagrama_de_ejemplo">Diagrama de ejemplo</h5>
 <div class="imageblock">
 <div class="content">
-<img src="pod-communication.png" alt="pod communication" width="275" height="289">
+<img src="pod-communication.png" alt="pod communication" width="218" height="289">
 </div>
 </div>
 </div>
@@ -3969,125 +3991,37 @@ spec:
 <p>Probar las políticas en entornos de desarrollo antes de aplicarlas en producción.</p>
 </li>
 <li>
-<p>Documentar las reglas y mantenerlas actualizadas.</p>
+<p>Documentar las reglas y mantenerlas actualizadas.
+ç</p>
 </li>
 </ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_resumen_gráfico_3">Resumen gráfico</h5>
-<div class="listingblock">
-<div class="content">
-<pre>Failed to generate image: PlantUML preprocessing failed: [From &lt;input&gt; (line 7) ]
-
-@startuml
-node "Namespace" {
-  [Pod frontend] -down- [Pod backend]
-}
-[Pod frontend] --&gt; [Pod backend] : Permitido
-actor "Otro Pod" as Otro
-Otro -x [Pod backend] : Denegado
-^^^^^
- Syntax Error? (Assumed diagram type: component)
-
-@startuml
-node "Namespace" {
-  [Pod frontend] -down- [Pod backend]
-}
-[Pod frontend] --&gt; [Pod backend] : Permitido
-actor "Otro Pod" as Otro
-Otro -x [Pod backend] : Denegado
-@enduml</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_resumen_gráfico_4">Resumen gráfico</h4>
-<div class="imageblock">
-<div class="content">
-<img src="network-model.png" alt="network model" width="262" height="289">
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_proxies_y_balanceadores_de_carga">Proxies y balanceadores de carga</h3>
+<h3 id="_proxy">Proxy</h3>
 <div class="paragraph">
-<p>En Kubernetes, los proxies y balanceadores de carga son componentes esenciales para gestionar el tráfico de red hacia y entre las aplicaciones desplegadas en el clúster. A continuación se explica en detalle su funcionamiento y sus diferentes tipos:</p>
+<p>Un proxy es un intermediario que recibe solicitudes de red y las reenvía a uno o varios servidores de destino.</p>
 </div>
-<div class="sect3">
-<h4 id="_qué_es_un_proxy">¿Qué es un proxy?</h4>
-<div class="paragraph">
-<p>Un proxy es un intermediario que recibe solicitudes de red y las reenvía a uno o varios servidores de destino. En Kubernetes, los proxies ayudan a dirigir el tráfico hacia los pods correctos, facilitando la escalabilidad y la tolerancia a fallos.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_qué_es_un_balanceador_de_carga">¿Qué es un balanceador de carga?</h4>
-<div class="paragraph">
-<p>Un balanceador de carga distribuye el tráfico de red entre varios servidores o pods, asegurando que ninguno se sobrecargue y que las solicitudes se atiendan de manera eficiente. Esto mejora la disponibilidad y el rendimiento de las aplicaciones.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_tipos_de_proxies_y_balanceadores_en_kubernetes">Tipos de proxies y balanceadores en Kubernetes</h4>
 <div class="ulist">
+<div class="title">Las características principales de un proxy en Kubernetes son:</div>
 <ul>
 <li>
-<p><strong>kube-proxy</strong>: Es el componente nativo de Kubernetes que implementa la lógica de red para los servicios. kube-proxy puede funcionar en modo iptables, IPVS o userspace, y se encarga de reenviar el tráfico a los pods correctos según las reglas de los servicios.</p>
+<p>El proxy funciona como un puente entre tu máquina local y el API Kubernetes.</p>
 </li>
 <li>
-<p><strong>Service de tipo ClusterIP</strong>: Crea una IP virtual interna para acceder a un conjunto de pods. kube-proxy distribuye el tráfico entre los pods asociados.</p>
+<p>Necesitas que el deployment esté expuesto mediante un servicio en Kubernetes para que el proxy pueda enrutar correctamente.</p>
 </li>
 <li>
-<p><strong>Service de tipo NodePort</strong>: Expone un servicio en un puerto específico de cada nodo del clúster, permitiendo el acceso externo a través de la IP del nodo y el puerto asignado.</p>
-</li>
-<li>
-<p><strong>Service de tipo LoadBalancer</strong>: Integra un balanceador de carga externo (por ejemplo, de un proveedor cloud) que distribuye el tráfico entrante entre los nodos y, a su vez, entre los pods.</p>
-</li>
-<li>
-<p><strong>Ingress</strong>: Es un recurso que gestiona el acceso HTTP/HTTPS externo al clúster. Utiliza controladores (Ingress Controllers) como NGINX o Traefik, que actúan como proxies inversos y balanceadores de carga a nivel de aplicación.</p>
+<p>Se usa principalmente para debugging o acceso interno, no en producción.</p>
 </li>
 </ul>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_ejemplo_de_flujo_de_tráfico">Ejemplo de flujo de tráfico</h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Un usuario externo accede a una aplicación a través de un balanceador de carga (LoadBalancer o Ingress).</p>
-</li>
-<li>
-<p>El balanceador de carga recibe la solicitud y la dirige a uno de los nodos del clúster.</p>
-</li>
-<li>
-<p>kube-proxy en el nodo recibe la solicitud y la reenvía a uno de los pods disponibles según la configuración del servicio.</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_ventajas_de_usar_proxies_y_balanceadores">Ventajas de usar proxies y balanceadores</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alta disponibilidad</strong>: Si un pod falla, el tráfico se redirige automáticamente a otros pods sanos.</p>
-</li>
-<li>
-<p><strong>Escalabilidad</strong>: Permite añadir o quitar pods sin interrumpir el servicio.</p>
-</li>
-<li>
-<p><strong>Flexibilidad</strong>: Se pueden definir reglas avanzadas de enrutamiento y seguridad.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_resumen_gráfico_5">Resumen gráfico</h4>
-<div id="myId" class="imageblock">
+<div class="listingblock">
+<div class="title">Para lanzar un proxy, se utiliza el comando:</div>
 <div class="content">
-<img src="diag-plantuml-md5-99f65fe7421a2c67dc9d88c2b78819bc.png" alt="Diagram" width="329" height="401">
-</div>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl proxy</code></pre>
 </div>
 </div>
 </div>
@@ -4206,6 +4140,7 @@ spec:
 <p>Supón que quieres que tus pods solo puedan acceder a Internet (por ejemplo, para actualizaciones o APIs externas), pero no a otros pods del clúster.</p>
 </div>
 <div class="listingblock">
+<div class="title">Definimos una NetworkPolicy que permita el tráfico de salida (egress) solo a direcciones IP externas en los puertos 80 y 443:</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml"># networkpolicy-egress-internet.yml
 apiVersion: networking.k8s.io/v1
@@ -4419,38 +4354,6 @@ spec:
 <p>Supervisa el estado del Ingress Controller y revisa los logs ante problemas de enrutamiento.</p>
 </li>
 </ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_resumen_gráfico_6">Resumen gráfico</h4>
-<div class="listingblock">
-<div class="content">
-<pre>Failed to generate image: PlantUML preprocessing failed: [From &lt;input&gt; (line 9) ]
-
-@startuml
-actor Usuario
-cloud "Internet"
-cloud "Ingress Controller"
-node "Kubernetes Cluster" {
-  [Service A] --&gt; [Pod A1]
-  [Service A] --&gt; [Pod A2]
-}
-Usuario --&gt; "Internet" --&gt; "Ingress Controller" : Solicitud HTTP/HTTPS
-^^^^^
- Syntax Error? (Assumed diagram type: component)
-
-@startuml
-actor Usuario
-cloud "Internet"
-cloud "Ingress Controller"
-node "Kubernetes Cluster" {
-  [Service A] --&gt; [Pod A1]
-  [Service A] --&gt; [Pod A2]
-}
-Usuario --&gt; "Internet" --&gt; "Ingress Controller" : Solicitud HTTP/HTTPS
-"Ingress Controller" --&gt; [Service A] : Enrutamiento según reglas
-@enduml</pre>
-</div>
 </div>
 </div>
 </div>
@@ -4829,42 +4732,6 @@ spec:
 <p>Documenta los endpoints y puertos expuestos para facilitar la gestión y el mantenimiento.</p>
 </li>
 </ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_resumen_gráfico_7">Resumen gráfico</h4>
-<div class="listingblock">
-<div class="content">
-<pre>Failed to generate image: PlantUML preprocessing failed: [From &lt;input&gt; (line 10) ]
-
-@startuml
-actor Usuario
-cloud "Internet"
-cloud "LoadBalancer / Ingress"
-node "Kubernetes Cluster" {
-  [Service NodePort] --&gt; [Pod A]
-  [Service LoadBalancer] --&gt; [Pod B]
-  [Service Ingress] --&gt; [Pod C]
-}
-Usuario --&gt; "Internet" --&gt; "LoadBalancer / Ingress"
-^^^^^
- Syntax Error? (Assumed diagram type: component)
-
-@startuml
-actor Usuario
-cloud "Internet"
-cloud "LoadBalancer / Ingress"
-node "Kubernetes Cluster" {
-  [Service NodePort] --&gt; [Pod A]
-  [Service LoadBalancer] --&gt; [Pod B]
-  [Service Ingress] --&gt; [Pod C]
-}
-Usuario --&gt; "Internet" --&gt; "LoadBalancer / Ingress"
-"LoadBalancer / Ingress" --&gt; [Service NodePort]
-"LoadBalancer / Ingress" --&gt; [Service LoadBalancer]
-"LoadBalancer / Ingress" --&gt; [Service Ingress]
-@enduml</pre>
-</div>
 </div>
 </div>
 </div>
@@ -5458,39 +5325,6 @@ spec:
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_resumen_gráfico_8">Resumen gráfico</h4>
-<div class="listingblock">
-<div class="content">
-<pre>Failed to generate image: PlantUML preprocessing failed: [From &lt;input&gt; (line 9) ]
-
-@startuml
-actor Usuario
-cloud "Internet"
-cloud "Ingress/Service Mesh"
-node "Kubernetes Cluster" {
-  [Pods v1] as v1
-  [Pods v2] as v2
-}
-Usuario --&gt; "Internet" --&gt; "Ingress/Service Mesh"
-^^^^^
- Syntax Error? (Assumed diagram type: component)
-
-@startuml
-actor Usuario
-cloud "Internet"
-cloud "Ingress/Service Mesh"
-node "Kubernetes Cluster" {
-  [Pods v1] as v1
-  [Pods v2] as v2
-}
-Usuario --&gt; "Internet" --&gt; "Ingress/Service Mesh"
-"Ingress/Service Mesh" --&gt; v1 : Tráfico estable/canary
-"Ingress/Service Mesh" --&gt; v2 : Tráfico canary/green
-@enduml</pre>
-</div>
-</div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_autoscaling_basado_en_métricas">Autoscaling basado en métricas</h3>
@@ -5743,6 +5577,23 @@ roleRef:
   kind: ClusterRole
   name: cluster-lector-pods
   apiGroup: rbac.authorization.k8s.io</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Los comandos mas usados para gestionar los recursos RBAC son:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl get roles --all-namespaces
+kubectl get rolebindings --all-namespaces
+kubectl get clusterroles
+kubectl get clusterrolebindings
+kubectl describe role &lt;nombre-del-role&gt; -n &lt;namespace&gt;
+kubectl describe rolebinding &lt;nombre-del-rolebinding&gt; -n &lt;namespace&gt;
+kubectl describe clusterrole &lt;nombre-del-clusterrole&gt;
+kubectl describe clusterrolebinding &lt;nombre-del-clusterrolebinding&gt;
+kubectl delete role &lt;nombre-del-role&gt; -n &lt;namespace&gt;
+kubectl delete rolebinding &lt;nombre-del-rolebinding&gt; -n &lt;namespace&gt;
+kubectl delete clusterrole &lt;nombre-del-clusterrole&gt;
+kubectl delete clusterrolebinding &lt;nombre-del-clusterrolebinding&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -6067,33 +5918,6 @@ spec:
 <p>Supervisa el tráfico y revisa los logs para detectar intentos de acceso no autorizados.</p>
 </li>
 </ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_diagrama_explicativo">Diagrama explicativo</h4>
-<div class="listingblock">
-<div class="content">
-<pre>Failed to generate image: PlantUML preprocessing failed: [From &lt;input&gt; (line 7) ]
-
-@startuml
-node "Namespace" {
-  [Pod frontend] -down- [Pod backend]
-}
-[Pod frontend] --&gt; [Pod backend] : Permitido
-actor "Otro Pod" as Otro
-Otro -x [Pod backend] : Denegado
-^^^^^
- Syntax Error? (Assumed diagram type: component)
-
-@startuml
-node "Namespace" {
-  [Pod frontend] -down- [Pod backend]
-}
-[Pod frontend] --&gt; [Pod backend] : Permitido
-actor "Otro Pod" as Otro
-Otro -x [Pod backend] : Denegado
-@enduml</pre>
-</div>
 </div>
 </div>
 </div>
@@ -6479,11 +6303,15 @@ spec:
   endpoints:
     - port: http
       path: /metrics
-      interval: 15s</code></pre>
+      interval: 15s
+  type: LoadBalancer</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Asegúrate de que el Service de tu aplicación tenga el label <code>app: mi-app</code> y exponga el puerto adecuado.</p>
+<div class="listingblock">
+<div class="title">Asegúrate de que el Service de tu aplicación tenga el label <code>app: mi-app</code> y exponga el puerto adecuado.</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl expose deployment mi-app --type=ClusterIP --name=mi-app --port=80 --target-port=8080</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -6516,6 +6344,156 @@ spec:
 </div>
 <div class="paragraph">
 <p>Alertmanager puede integrarse con email, Slack, PagerDuty y otros sistemas de notificación.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consultas_promql_prometheus_query_language">Consultas PromQL (Prometheus Query Language)</h4>
+<div class="paragraph">
+<p>PromQL es el lenguaje de consulta especializado de Prometheus para trabajar con series temporales de métricas. Su sintaxis es funcional y permite seleccionar, filtrar, agregar y transformar datos.</p>
+</div>
+<div class="ulist">
+<div class="title">Las características principales de la sintaxis PromQL:</div>
+<ul>
+<li>
+<p>Cada expresión PromQL evalúa a un vector de tiempo o un escalar.</p>
+</li>
+<li>
+<p>La sintaxis es sensible a mayúsculas y minúsculas.</p>
+</li>
+<li>
+<p>PromQL es muy potente para construir alertas y dashboards en Prometheus y Grafana.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>En Prometheus, un <strong>job</strong> es una etiqueta clave que se utiliza para identificar un conjunto de objetivos (targets) relacionados que son monitoreados juntos. Cada job representa una tarea o grupo de tareas configuradas en el archivo de scrape de Prometheus.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Un <strong>job</strong> es definido en la configuración de Prometheus para agrupar una o varias instancias o targets.</p>
+</li>
+<li>
+<p>Prometheus añade automáticamente la etiqueta <code>job</code> a todas las métricas que recoge para identificar a qué conjunto pertenecen.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Ejemplo típico en configuración YAML:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">scrape_configs:
+  - job_name: "webserver"
+    static_configs:
+      - targets: ["localhost:8080", "localhost:8081"]</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Puedes filtrar las métricas por el valor de la etiqueta <code>job</code> para consultar solo las series que pertenecen a ese conjunto.</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql">http_requests_total{job="webserver"}
+up{job=~"apiserver|dbserver"}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Aquí <code>job="webserver"</code> selecciona métricas sólo del job "webserver".</p>
+</li>
+<li>
+<p>También puedes usar expresiones regulares para filtrar múltiples jobs con <code>=~</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql">up
+node_cpu_seconds_total{mode="idle"}
+rate(http_requests_total[5m])
+sum(rate(http_requests_total[5m])) by (job)</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Nombre de métrica (<code>up</code>): devuelve el estado de los targets.</p>
+</li>
+<li>
+<p>Filtros por etiquetas (<code>{mode="idle"}</code>): selecciona series que cumplen la condición.</p>
+</li>
+<li>
+<p>Función sobre rango de tiempo (<code>rate</code>): calcula el cambio por segundo.</p>
+</li>
+<li>
+<p>Agregación (<code>sum &#8230;&#8203; by (job)</code>): suma los valores por etiqueta específica.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql"># Valor máximo de la métrica 'cpu_usage' por instancia
+max(cpu_usage) by (instance)
+
+# Media de memoria usada
+avg(memory_usage_bytes)</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Funciones comunes: <code>sum()</code>, <code>avg()</code>, <code>max()</code>, <code>min()</code>, <code>count()</code>.</p>
+</li>
+<li>
+<p>Agrupación con <code>by (etiqueta1, etiqueta2)</code> para segmentar resultados.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql"># Uso de CPU dividido entre número de núcleos
+cpu_usage / cpu_cores
+
+# Series que cumplen condición lógica
+up == 1 and job == "api"</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Operadores: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>and</code>, <code>or</code>, <code>unless</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql"># Predicción lineal de una métrica en una hora (3600 segundos)
+predict_linear(http_requests_total[1h], 3600)
+
+# Percentil 95 en un histograma
+histogram_quantile(0.95, rate(request_duration_seconds_bucket[5m]))</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Funciones específicas para análisis temporal y estadístico.</p>
+</li>
+<li>
+<p>Permiten pronosticar, calcular percentiles, tasas, y más.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql"># Valores de la última hora de la métrica 'http_requests_total'
+http_requests_total[1h]</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Los corchetes <code>[1h]</code>, <code>[5m]</code>, etc., indican que la función o consulta trabaja sobre ese intervalo.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
@@ -8980,39 +8958,6 @@ spec:
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_resumen_gráfico_9">Resumen gráfico</h4>
-<div class="listingblock">
-<div class="content">
-<pre>Failed to generate image: PlantUML preprocessing failed: [From &lt;input&gt; (line 9) ]
-
-@startuml
-actor Usuario
-cloud "Internet"
-cloud "Ingress/Service Mesh"
-node "Kubernetes Cluster" {
-  [Pods v1] as v1
-  [Pods v2] as v2
-}
-Usuario --&gt; "Internet" --&gt; "Ingress/Service Mesh"
-^^^^^
- Syntax Error? (Assumed diagram type: component)
-
-@startuml
-actor Usuario
-cloud "Internet"
-cloud "Ingress/Service Mesh"
-node "Kubernetes Cluster" {
-  [Pods v1] as v1
-  [Pods v2] as v2
-}
-Usuario --&gt; "Internet" --&gt; "Ingress/Service Mesh"
-"Ingress/Service Mesh" --&gt; v1 : Tráfico estable/canary
-"Ingress/Service Mesh" --&gt; v2 : Tráfico canary/green
-@enduml</pre>
-</div>
-</div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_integración_con_herramientas_populares">Integración con herramientas populares</h3>
@@ -11190,7 +11135,7 @@ helm install mi-mysql bitnami/mysql</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-24 09:57:20 +0200
+Last updated 2025-09-26 09:25:34 +0200
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

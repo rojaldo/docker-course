@@ -851,7 +851,7 @@ En el ejemplo anterior:
 - `0 0 * * 1-5`: Cada lunes a viernes a medianoche.
 - `0 0 * * 1-5,6`: Cada lunes a viernes y sábado a medianoche.
 
-La codificación del elemento schedule es la siguiente:
+.La codificación del elemento schedule es la siguiente:
 - `*`: Cada unidad de tiempo.
 - `*/n`: Cada n unidades de tiempo.
 - `n`: Cada n unidades de tiempo.
@@ -1355,7 +1355,6 @@ spec:
 
 El uso adecuado de namespaces mejora la organización, seguridad y escalabilidad en clústeres Kubernetes multiusuario o multiproyecto.
 
-
 == Módulo 4: Configuración de Aplicaciones
 La configuración de aplicaciones en Kubernetes es fundamental para gestionar la información sensible y las variables de entorno necesarias para el correcto funcionamiento de los pods. Kubernetes ofrece varias formas de manejar configuraciones, como ConfigMaps y Secrets, así como la posibilidad de inyectar variables de entorno y montar volúmenes.
 
@@ -1808,10 +1807,10 @@ Kubernetes define un modelo de red plano, donde:
 ==== Plugins de red (CNI)
 
 .Kubernetes no implementa la red por sí mismo, sino que utiliza plugins CNI como:
-- **Calico**
-- **Flannel**
-- **Weave**
-- **Cilium**
+- **Calico**: Ofrece políticas de red avanzadas y soporte para redes de alto rendimiento.
+- **Flannel**: Proporciona una red superpuesta simple para contenedores.
+- **Weave**: Permite la comunicación entre contenedores en diferentes hosts de manera sencilla.
+- **Cilium**: Utiliza eBPF para proporcionar seguridad y visibilidad en la red.
 
 ==== Ejemplo de comunicación
 
@@ -1899,7 +1898,7 @@ node "Nodo 1" {
 node "Nodo 2" {
   [Pod B]
 }
-[Pod A] --> [Pod B] : Comunicación directa (sin NAT)
+[Pod A] --> [Pod B] : Comunicación directa
 @enduml
 ----
 
@@ -1959,85 +1958,21 @@ spec:
 - Aplicar el principio de menor privilegio: solo permitir el tráfico necesario.
 - Probar las políticas en entornos de desarrollo antes de aplicarlas en producción.
 - Documentar las reglas y mantenerlas actualizadas.
+ç
 
-===== Resumen gráfico
+=== Proxy 
 
-[plantuml, network-policy, png]
+Un proxy es un intermediario que recibe solicitudes de red y las reenvía a uno o varios servidores de destino.
+
+.Las características principales de un proxy en Kubernetes son:
+* El proxy funciona como un puente entre tu máquina local y el API Kubernetes.
+* Necesitas que el deployment esté expuesto mediante un servicio en Kubernetes para que el proxy pueda enrutar correctamente.
+* Se usa principalmente para debugging o acceso interno, no en producción.
+
+.Para lanzar un proxy, se utiliza el comando:
+[source,bash]
 ----
-@startuml
-node "Namespace" {
-  [Pod frontend] -down- [Pod backend]
-}
-[Pod frontend] --> [Pod backend] : Permitido
-actor "Otro Pod" as Otro
-Otro -x [Pod backend] : Denegado
-@enduml
-----
-
-==== Resumen gráfico
-
-[plantuml, network-model, png]
-----
-@startuml
-node "Nodo A" {
-  [Pod 1] - [Pod 2]
-}
-node "Nodo B" {
-  [Pod 3]
-}
-[Pod 1] ..> [Pod 3] : Comunicación directa
-@enduml
-----
-
-=== Proxies y balanceadores de carga
-
-En Kubernetes, los proxies y balanceadores de carga son componentes esenciales para gestionar el tráfico de red hacia y entre las aplicaciones desplegadas en el clúster. A continuación se explica en detalle su funcionamiento y sus diferentes tipos:
-
-==== ¿Qué es un proxy?
-
-Un proxy es un intermediario que recibe solicitudes de red y las reenvía a uno o varios servidores de destino. En Kubernetes, los proxies ayudan a dirigir el tráfico hacia los pods correctos, facilitando la escalabilidad y la tolerancia a fallos.
-
-==== ¿Qué es un balanceador de carga?
-
-Un balanceador de carga distribuye el tráfico de red entre varios servidores o pods, asegurando que ninguno se sobrecargue y que las solicitudes se atiendan de manera eficiente. Esto mejora la disponibilidad y el rendimiento de las aplicaciones.
-
-==== Tipos de proxies y balanceadores en Kubernetes
-
-- **kube-proxy**: Es el componente nativo de Kubernetes que implementa la lógica de red para los servicios. kube-proxy puede funcionar en modo iptables, IPVS o userspace, y se encarga de reenviar el tráfico a los pods correctos según las reglas de los servicios.
-- **Service de tipo ClusterIP**: Crea una IP virtual interna para acceder a un conjunto de pods. kube-proxy distribuye el tráfico entre los pods asociados.
-- **Service de tipo NodePort**: Expone un servicio en un puerto específico de cada nodo del clúster, permitiendo el acceso externo a través de la IP del nodo y el puerto asignado.
-- **Service de tipo LoadBalancer**: Integra un balanceador de carga externo (por ejemplo, de un proveedor cloud) que distribuye el tráfico entrante entre los nodos y, a su vez, entre los pods.
-- **Ingress**: Es un recurso que gestiona el acceso HTTP/HTTPS externo al clúster. Utiliza controladores (Ingress Controllers) como NGINX o Traefik, que actúan como proxies inversos y balanceadores de carga a nivel de aplicación.
-
-==== Ejemplo de flujo de tráfico
-
-1. Un usuario externo accede a una aplicación a través de un balanceador de carga (LoadBalancer o Ingress).
-2. El balanceador de carga recibe la solicitud y la dirige a uno de los nodos del clúster.
-3. kube-proxy en el nodo recibe la solicitud y la reenvía a uno de los pods disponibles según la configuración del servicio.
-
-==== Ventajas de usar proxies y balanceadores
-
-- **Alta disponibilidad**: Si un pod falla, el tráfico se redirige automáticamente a otros pods sanos.
-- **Escalabilidad**: Permite añadir o quitar pods sin interrumpir el servicio.
-- **Flexibilidad**: Se pueden definir reglas avanzadas de enrutamiento y seguridad.
-
-==== Resumen gráfico
-
-[plantuml, format="png", id="myId"]
-----
-@startuml
-actor Usuario
-cloud "LoadBalancer / Ingress" as LB
-node "Nodo 1" {
-  [Pod A]
-}
-node "Nodo 2" {
-  [Pod B]
-}
-Usuario --> LB : Solicitud HTTP
-LB --> [Pod A] : Tráfico balanceado
-LB --> [Pod B] : Tráfico balanceado
-@enduml
+kubectl proxy
 ----
 
 === Políticas de red en Kubernetes
@@ -2130,6 +2065,7 @@ spec:
 
 Supón que quieres que tus pods solo puedan acceder a Internet (por ejemplo, para actualizaciones o APIs externas), pero no a otros pods del clúster.
 
+.Definimos una NetworkPolicy que permita el tráfico de salida (egress) solo a direcciones IP externas en los puertos 80 y 443:
 [source,yaml]
 ----
 # networkpolicy-egress-internet.yml
@@ -2277,22 +2213,6 @@ kubectl create secret tls miapp-tls-secret --cert=certificado.crt --key=clave.ke
 - Usa certificados TLS válidos para producción.
 - Supervisa el estado del Ingress Controller y revisa los logs ante problemas de enrutamiento.
 
-==== Resumen gráfico
-
-[plantuml, ingress-controller, png]
-----
-@startuml
-actor Usuario
-cloud "Internet"
-cloud "Ingress Controller"
-node "Kubernetes Cluster" {
-  [Service A] --> [Pod A1]
-  [Service A] --> [Pod A2]
-}
-Usuario --> "Internet" --> "Ingress Controller" : Solicitud HTTP/HTTPS
-"Ingress Controller" --> [Service A] : Enrutamiento según reglas
-@enduml
-----
 
 === Service Mesh
 
@@ -3037,24 +2957,6 @@ spec:
 - Define criterios claros de rollback y monitorea la experiencia del usuario.
 - Documenta cada estrategia y los pasos para revertir cambios si es necesario.
 
-==== Resumen gráfico
-
-[plantuml, advanced-deploy-strategies, png]
-----
-@startuml
-actor Usuario
-cloud "Internet"
-cloud "Ingress/Service Mesh"
-node "Kubernetes Cluster" {
-  [Pods v1] as v1
-  [Pods v2] as v2
-}
-Usuario --> "Internet" --> "Ingress/Service Mesh"
-"Ingress/Service Mesh" --> v1 : Tráfico estable/canary
-"Ingress/Service Mesh" --> v2 : Tráfico canary/green
-@enduml
-----
-
 === Autoscaling basado en métricas
 
 El autoscaling basado en métricas permite que Kubernetes ajuste automáticamente los recursos de las aplicaciones en función de métricas observadas, como el uso de CPU, memoria o métricas personalizadas (por ejemplo, número de peticiones, latencia, etc.). Esto garantiza que las aplicaciones puedan responder a cambios en la demanda de forma eficiente y automática.
@@ -3256,6 +3158,24 @@ roleRef:
   name: cluster-lector-pods
   apiGroup: rbac.authorization.k8s.io
 ----
+
+.Los comandos mas usados para gestionar los recursos RBAC son:
+[source,bash]
+----
+kubectl get roles --all-namespaces
+kubectl get rolebindings --all-namespaces
+kubectl get clusterroles
+kubectl get clusterrolebindings
+kubectl describe role <nombre-del-role> -n <namespace>
+kubectl describe rolebinding <nombre-del-rolebinding> -n <namespace>
+kubectl describe clusterrole <nombre-del-clusterrole>
+kubectl describe clusterrolebinding <nombre-del-clusterrolebinding>
+kubectl delete role <nombre-del-role> -n <namespace>
+kubectl delete rolebinding <nombre-del-rolebinding> -n <namespace>
+kubectl delete clusterrole <nombre-del-clusterrole>
+kubectl delete clusterrolebinding <nombre-del-clusterrolebinding>
+----
+
 
 ==== Buenas prácticas
 
@@ -3481,19 +3401,6 @@ spec:
 - Documenta las reglas y mantenlas actualizadas.
 - Supervisa el tráfico y revisa los logs para detectar intentos de acceso no autorizados.
 
-==== Diagrama explicativo
-
-[plantuml, network-policy-example, png]
-----
-@startuml
-node "Namespace" {
-  [Pod frontend] -down- [Pod backend]
-}
-[Pod frontend] --> [Pod backend] : Permitido
-actor "Otro Pod" as Otro
-Otro -x [Pod backend] : Denegado
-@enduml
-----
 
 === Pod Security Policies
 
@@ -3737,9 +3644,14 @@ spec:
     - port: http
       path: /metrics
       interval: 15s
+  type: LoadBalancer
 ----
 
-Asegúrate de que el Service de tu aplicación tenga el label `app: mi-app` y exponga el puerto adecuado.
+.Asegúrate de que el Service de tu aplicación tenga el label `app: mi-app` y exponga el puerto adecuado.
+[source,bash]
+----
+kubectl expose deployment mi-app --type=ClusterIP --name=mi-app --port=80 --target-port=8080
+----
 
 ==== Alertas con Alertmanager
 
@@ -3769,6 +3681,95 @@ spec:
 ----
 
 Alertmanager puede integrarse con email, Slack, PagerDuty y otros sistemas de notificación.
+
+==== Consultas PromQL (Prometheus Query Language)
+
+PromQL es el lenguaje de consulta especializado de Prometheus para trabajar con series temporales de métricas. Su sintaxis es funcional y permite seleccionar, filtrar, agregar y transformar datos.
+
+.Las características principales de la sintaxis PromQL:
+* Cada expresión PromQL evalúa a un vector de tiempo o un escalar.
+* La sintaxis es sensible a mayúsculas y minúsculas.
+* PromQL es muy potente para construir alertas y dashboards en Prometheus y Grafana.
+
+En Prometheus, un *job* es una etiqueta clave que se utiliza para identificar un conjunto de objetivos (targets) relacionados que son monitoreados juntos. Cada job representa una tarea o grupo de tareas configuradas en el archivo de scrape de Prometheus.
+
+* Un *job* es definido en la configuración de Prometheus para agrupar una o varias instancias o targets.
+* Prometheus añade automáticamente la etiqueta `job` a todas las métricas que recoge para identificar a qué conjunto pertenecen.
+
+.Ejemplo típico en configuración YAML:
+[source,yaml]
+----
+scrape_configs:
+  - job_name: "webserver"
+    static_configs:
+      - targets: ["localhost:8080", "localhost:8081"]
+----
+
+.Puedes filtrar las métricas por el valor de la etiqueta `job` para consultar solo las series que pertenecen a ese conjunto.
+[source,promql]
+----
+http_requests_total{job="webserver"}
+up{job=~"apiserver|dbserver"}
+----
+
+* Aquí `job="webserver"` selecciona métricas sólo del job "webserver".
+* También puedes usar expresiones regulares para filtrar múltiples jobs con `=~`.
+
+[source,promql]
+----
+up
+node_cpu_seconds_total{mode="idle"}
+rate(http_requests_total[5m])
+sum(rate(http_requests_total[5m])) by (job)
+----
+
+* Nombre de métrica (`up`): devuelve el estado de los targets.
+* Filtros por etiquetas (`{mode="idle"}`): selecciona series que cumplen la condición.
+* Función sobre rango de tiempo (`rate`): calcula el cambio por segundo.
+* Agregación (`sum ... by (job)`): suma los valores por etiqueta específica.
+
+[source,promql]
+----
+# Valor máximo de la métrica 'cpu_usage' por instancia
+max(cpu_usage) by (instance)
+
+# Media de memoria usada
+avg(memory_usage_bytes)
+----
+
+* Funciones comunes: `sum()`, `avg()`, `max()`, `min()`, `count()`.
+* Agrupación con `by (etiqueta1, etiqueta2)` para segmentar resultados.
+
+[source,promql]
+----
+# Uso de CPU dividido entre número de núcleos
+cpu_usage / cpu_cores
+
+# Series que cumplen condición lógica
+up == 1 and job == "api"
+----
+
+* Operadores: `+`, `-`, `*`, `/`, `%`, `==`, `!=`, `<`, `>`, `and`, `or`, `unless`.
+
+[source,promql]
+----
+# Predicción lineal de una métrica en una hora (3600 segundos)
+predict_linear(http_requests_total[1h], 3600)
+
+# Percentil 95 en un histograma
+histogram_quantile(0.95, rate(request_duration_seconds_bucket[5m]))
+----
+
+* Funciones específicas para análisis temporal y estadístico.
+* Permiten pronosticar, calcular percentiles, tasas, y más.
+
+[source,promql]
+----
+# Valores de la última hora de la métrica 'http_requests_total'
+http_requests_total[1h]
+----
+
+* Los corchetes `[1h]`, `[5m]`, etc., indican que la función o consulta trabaja sobre ese intervalo.
 
 ==== Buenas prácticas
 
@@ -5440,23 +5441,7 @@ spec:
 - Define criterios claros de rollback y monitorea la experiencia del usuario.
 - Documenta cada estrategia y los pasos para revertir cambios si es necesario.
 
-==== Resumen gráfico
 
-[plantuml, advanced-deploy-strategies, png]
-----
-@startuml
-actor Usuario
-cloud "Internet"
-cloud "Ingress/Service Mesh"
-node "Kubernetes Cluster" {
-  [Pods v1] as v1
-  [Pods v2] as v2
-}
-Usuario --> "Internet" --> "Ingress/Service Mesh"
-"Ingress/Service Mesh" --> v1 : Tráfico estable/canary
-"Ingress/Service Mesh" --> v2 : Tráfico canary/green
-@enduml
-----
 
 === Integración con herramientas populares
 
