@@ -3827,6 +3827,7 @@ kubectl port-forward svc/prometheus-grafana 3000:80
 
 .Para obtener los datos de acceso:
 [source,bash]
+----
 kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-user}" | base64 --decode; echo
 kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
 ----

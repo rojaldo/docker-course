@@ -1057,11 +1057,48 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 - <strong>Kubelet</strong>: agente que corre en cada nodo y gestiona los pods.
 - <strong>Kube Proxy</strong>: gestiona la red y el acceso a los servicios.</p>
 </div>
-<div class="imageblock">
+<div class="listingblock">
+<div class="title">Diagrama de arquitectura de Kubernetes con todas sus entidades</div>
 <div class="content">
-<img src="kubernetes_cluster.png" alt="kubernetes cluster" width="1207" height="525">
+<pre>@startuml
+
+package "Control Plane" {
+[kube-apiserver] as apiserver
+[etcd (key-value store)] as etcd
+[kube-scheduler] as scheduler
+[kube-controller-manager] as controller
+}
+
+package "Worker Node 1" {
+[kubelet] as kubelet1
+[kube-proxy] as kubeproxy1
+[Container Runtime] as runtime1
+}
+
+package "Worker Node 2" {
+[kubelet] as kubelet2
+[kube-proxy] as kubeproxy2
+[Container Runtime] as runtime2
+}
+
+apiserver --&gt; etcd : "Reads/Writes state"
+apiserver --&gt; scheduler : "Sends scheduling info"
+apiserver --&gt; controller : "Manages controllers"
+
+scheduler --&gt; kubelet1 : "Assigns pods"
+scheduler --&gt; kubelet2 : "Assigns pods"
+
+apiserver --&gt; kubelet1 : "Pod binding"
+apiserver --&gt; kubelet2 : "Pod binding"
+
+kubelet1 --&gt; runtime1 : "Manages containers"
+kubelet2 --&gt; runtime2 : "Manages containers"
+
+kubeproxy1 .[#green].&gt; kubelet1 : "Service proxy"
+kubeproxy2 .[#green].&gt; kubelet2 : "Service proxy"
+
+@enduml</pre>
 </div>
-<div class="title">Figure 1. Diagrama de arquitectura de Kubernetes con todas sus entidades</div>
 </div>
 </div>
 <div class="sect2">
@@ -1826,9 +1863,17 @@ spec:
 </div>
 <div class="sect3">
 <h4 id="_resumen_gráfico">Resumen gráfico</h4>
-<div class="imageblock">
+<div class="listingblock">
 <div class="content">
-<img src="statefulset-diagram.png" alt="statefulset diagram" width="1014" height="258">
+<pre>@startuml
+node "Kubernetes Cluster" {
+  [mongo-0] --&gt; [PVC datos-mongo-0]
+  [mongo-1] --&gt; [PVC datos-mongo-1]
+  [mongo-2] --&gt; [PVC datos-mongo-2]
+}
+cloud "Headless Service (mongo)"
+[Usuario] --&gt; "Headless Service (mongo)" : DNS mongo-0.mongo, mongo-1.mongo, ...
+@enduml</pre>
 </div>
 </div>
 </div>
@@ -2367,9 +2412,17 @@ spec:
 </div>
 <div class="sect3">
 <h4 id="_resumen_gráfico_2">Resumen gráfico</h4>
-<div class="imageblock">
+<div class="listingblock">
 <div class="content">
-<img src="jobs-cronjobs.png" alt="jobs cronjobs" width="407" height="601">
+<pre>@startuml
+actor "Usuario/Administrador"
+cloud "Kubernetes Cluster"
+"Usuario/Administrador" --&gt; "Kubernetes Cluster" : Crea Job/CronJob
+"Kubernetes Cluster" --&gt; [Job] : Ejecuta pods hasta completarse
+"Kubernetes Cluster" --&gt; [CronJob] : Programa Jobs periódicamente
+[Job] --&gt; [Pod(s)] : Lanza pods para la tarea
+[CronJob] --&gt; [Job] : Crea Jobs según schedule
+@enduml</pre>
 </div>
 </div>
 </div>
@@ -3887,9 +3940,17 @@ spec:
 </div>
 <div class="sect4">
 <h5 id="_diagrama_de_ejemplo">Diagrama de ejemplo</h5>
-<div class="imageblock">
+<div class="listingblock">
 <div class="content">
-<img src="pod-communication.png" alt="pod communication" width="218" height="289">
+<pre>@startuml
+node "Nodo 1" {
+  [Pod A]
+}
+node "Nodo 2" {
+  [Pod B]
+}
+[Pod A] --&gt; [Pod B] : Comunicación directa
+@enduml</pre>
 </div>
 </div>
 </div>
@@ -4391,9 +4452,18 @@ spec:
 <div class="paragraph">
 <p>La mayoría de los Service Mesh modernos, como Istio o Linkerd, utilizan el patrón <strong>sidecar proxy</strong>. Esto significa que junto a cada pod de la aplicación se despliega un contenedor adicional (sidecar) que intercepta y gestiona todo el tráfico de red del pod.</p>
 </div>
-<div class="imageblock">
+<div class="listingblock">
 <div class="content">
-<img src="service-mesh-architecture.png" alt="service mesh architecture" width="533" height="346">
+<pre>@startuml
+node "Nodo Kubernetes" {
+  [Servicio A] - [Sidecar Proxy A]
+  [Servicio B] - [Sidecar Proxy B]
+}
+[Sidecar Proxy A] &lt;--&gt; [Sidecar Proxy B] : Comunicación gestionada
+cloud "Control Plane"
+[Sidecar Proxy A] ..&gt; "Control Plane" : Configuración y métricas
+[Sidecar Proxy B] ..&gt; "Control Plane"
+@enduml</pre>
 </div>
 </div>
 <div class="ulist">
@@ -6602,8 +6672,7 @@ helm install prometheus prometheus-community/kube-prometheus-stack</code></pre>
 <div class="title">Para obtener los datos de acceso:</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-user}" | base64 --decode; echo
-kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
-----</code></pre>
+kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -10332,9 +10401,15 @@ spec:
 </div>
 <div class="sect3">
 <h4 id="_arquitectura_de_api_aggregation">Arquitectura de API Aggregation</h4>
-<div class="imageblock">
+<div class="listingblock">
 <div class="content">
-<img src="api-aggregation.svg" alt="api aggregation" width="505" height="314">
+<pre>@startuml
+actor User
+User -&gt; "Kubernetes API Server": Solicitud para recurso extendido
+"Kubernetes API Server" -&gt; "Aggregated API Server": Proxy de la solicitud
+"Aggregated API Server" --&gt; "Kubernetes API Server": Respuesta
+"Kubernetes API Server" --&gt; User: Respuesta final
+@enduml</pre>
 </div>
 </div>
 </div>
@@ -11188,7 +11263,7 @@ helm install mi-mysql bitnami/mysql</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-26 12:34:40 +0200
+Last updated 2025-10-05 17:33:26 +0200
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
