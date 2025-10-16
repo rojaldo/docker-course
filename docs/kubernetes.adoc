@@ -3620,168 +3620,153 @@ La forma más sencilla y recomendada de instalar Prometheus en Kubernetes es usa
 ----
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
-helm install prometheus prometheus-community/kube-prometheus-stack
+helm install prometheus prometheus-community/prometheus --namespace monitoring --create-namespace
 ----
 
-Esto desplegará todo el stack de monitorización en el namespace por defecto. Puedes personalizar la instalación usando valores de Helm.
+Esto desplegará todo el stack de monitorización en el namespace monitoring. Puedes personalizar la instalación usando valores de Helm.
 
-==== Exponer la interfaz web de Prometheus
-
-Para acceder a la interfaz web de Prometheus desde tu máquina local:
-
+.Para comprobar el estado de instalación:
 [source,bash]
 ----
-kubectl port-forward svc/prometheus-kube-prometheus-prometheus 9090:9090
-# Luego abre http://localhost:9090 en tu navegador
+kubectl get all -n monitoring
 ----
 
-==== Monitorización de aplicaciones personalizadas
-
-Para que Prometheus recolecte métricas de tus aplicaciones, estas deben exponer un endpoint `/metrics` en formato Prometheus. Puedes usar librerías como `prometheus-client` en Python, Go, Java, etc.
-
-.Ejemplo de ServiceMonitor para una aplicación:
-[source,yaml]
-----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: mi-app-monitor
-  labels:
-    release: prometheus
-spec:
-  selector:
-    matchLabels:
-      app: mi-app
-  endpoints:
-    - port: http
-      path: /metrics
-      interval: 15s
-  type: LoadBalancer
-----
-
-.Asegúrate de que el Service de tu aplicación tenga el label `app: mi-app` y exponga el puerto adecuado.
+.Para acceder a la interfaz web de Prometheus:
 [source,bash]
 ----
-kubectl expose deployment mi-app --type=ClusterIP --name=mi-app --port=80 --target-port=8080
+kubectl port-forward svc/prometheus-server -n monitoring 9090:80
 ----
 
-==== Alertas con Alertmanager
+==== Despliegue de Grafana con Helm
 
-Prometheus puede enviar alertas a través de Alertmanager cuando se cumplen ciertas condiciones (por ejemplo, alto uso de CPU, pods caídos, etc.).
+Grafana es una herramienta de visualización que se integra con Prometheus para crear dashboards y paneles de control. Para desplegar Grafana en Kubernetes, puedes usar el chart oficial de Helm.
 
-.Ejemplo de regla de alerta:
-[source,yaml]
+.Para añadir el repositorio de Grafana:
+[source,bash]
 ----
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: high-cpu-usage
-  labels:
-    release: prometheus
-spec:
-  groups:
-    - name: example.rules
-      rules:
-        - alert: HighCpuUsage
-          expr: sum(rate(container_cpu_usage_seconds_total{image!=""}[5m])) by (pod) > 0.8
-          for: 5m
-          labels:
-            severity: warning
-          annotations:
-            summary: "Alto uso de CPU en el pod"
-            description: "El pod {{ $labels.pod }} está usando más del 80% de CPU durante 5 minutos."
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
 ----
 
-Alertmanager puede integrarse con email, Slack, PagerDuty y otros sistemas de notificación.
+.Despliega Grafana:
+[source,bash]
+----
+helm install grafana grafana/grafana --namespace monitoring
+----
+
+.Para comprobar el estado de instalación:
+[source,bash]
+----
+kubectl get all -n monitoring
+----
+
+.Para acceder a la interfaz web de Grafana:
+[source,bash]
+----
+kubectl port-forward svc/grafana -n monitoring 3000:80
+----
+
+.Para obtener el password de admin:
+[source,bash]
+----
+kubectl get secret grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+----
 
 ==== Consultas PromQL (Prometheus Query Language)
 
-PromQL es el lenguaje de consulta especializado de Prometheus para trabajar con series temporales de métricas. Su sintaxis es funcional y permite seleccionar, filtrar, agregar y transformar datos.
+.Prometheus guarda datos en series temporales, cada una compuesta por:
+- Un nombre de métrica, por ejemplo: `http_requests_total`, `node_cpu_seconds_total`, etc.
+- Un conjunto de etiquetas (labels) en pares clave-valor, por ejemplo: `{method="GET", status="200"}`
 
-.Las características principales de la sintaxis PromQL:
-* Cada expresión PromQL evalúa a un vector de tiempo o un escalar.
-* La sintaxis es sensible a mayúsculas y minúsculas.
-* PromQL es muy potente para construir alertas y dashboards en Prometheus y Grafana.
-
-En Prometheus, un *job* es una etiqueta clave que se utiliza para identificar un conjunto de objetivos (targets) relacionados que son monitoreados juntos. Cada job representa una tarea o grupo de tareas configuradas en el archivo de scrape de Prometheus.
-
-* Un *job* es definido en la configuración de Prometheus para agrupar una o varias instancias o targets.
-* Prometheus añade automáticamente la etiqueta `job` a todas las métricas que recoge para identificar a qué conjunto pertenecen.
-
-.Ejemplo típico en configuración YAML:
-[source,yaml]
-----
-scrape_configs:
-  - job_name: "webserver"
-    static_configs:
-      - targets: ["localhost:8080", "localhost:8081"]
-----
-
-.Puedes filtrar las métricas por el valor de la etiqueta `job` para consultar solo las series que pertenecen a ese conjunto.
+.Una consulta simple retorna las series que coinciden con un filtro:
 [source,promql]
 ----
-http_requests_total{job="webserver"}
-up{job=~"apiserver|dbserver"}
+http_requests_total{method="GET"}
 ----
 
-* Aquí `job="webserver"` selecciona métricas sólo del job "webserver".
-* También puedes usar expresiones regulares para filtrar múltiples jobs con `=~`.
+Esta consulta devuelve todas las métricas `http_requests_total` cuyo `method` sea `GET`.
 
+.PromQL trabaja con dos tipos principales de vectores:
+- Vector instantáneo: devuelve el último valor de cada serie.
+- Vector de rango: contiene los valores de una métrica dentro de un intervalo definido con corchetes `[]`.
+
+
+.Ejemplo:
 [source,promql]
 ----
-up
-node_cpu_seconds_total{mode="idle"}
+http_requests_total[5m]
+----
+
+Obtiene los valores de los últimos cinco minutos.
+
+
+.PromQL incluye diversas funciones matemáticas y estadísticas, como:
+- `rate(metric[interval])` → tasa de cambio por segundo.
+- `increase(metric[interval])` → incremento total en ese periodo.
+- `sum()`, `avg()`, `max()`, `min()` → funciones de agregación.
+- `count()` → cuenta el número de series.
+- `stddev()`, `stdvar()` → desviación estándar y varianza.
+- `topk()`, `bottomk()` → los k valores más altos o bajos.
+- `histogram_quantile()` → calcula cuantiles a partir de histogramas.
+- `label_replace()` → modifica etiquetas usando expresiones regulares.
+- `abs()`, `ceil()`, `floor()`, `round()` → funciones matemáticas básicas.
+- `time()` → devuelve el timestamp actual en segundos.
+
+.Ejemplo típico:
+[source,promql]
+----
 rate(http_requests_total[5m])
+----
+
+Calcula la tasa de peticiones HTTP por segundo durante los últimos cinco minutos.
+
+.Es posible filtrar resultados según etiquetas específicas:
+[source,promql]
+----
+node_cpu_seconds_total{job="backend", mode!="idle"}
+----
+
+Filtra las métricas donde `job` sea backend y `mode` no sea idle.
+
+.También se pueden usar expresiones regulares:
+----
+http_requests_total{status=~"4.."}
+----
+
+Selecciona métricas con códigos de estado HTTP que comienzan por 4.
+
+.PromQL dispone de operadores aritméticos y lógicos:
+- Aritméticos: `+`, `-`, `*`, `/`
+- Lógicos: `and`, `or`, `unless`
+- Comparación: `==`, `!=`, `>`, `<`, `>=`, `<=`
+- Agrupación: `by`, `without`
+- `on`, `ignoring`
+
+.Ejemplo:
+[source,promql]
+----
+(cpu_usage_user + cpu_usage_system) / cpu_count
+----
+
+Calcula el uso total de CPU por núcleo.
+
+
+.Las funciones de agregación permiten agrupar métricas por etiquetas:
+[source,promql]
+----
 sum(rate(http_requests_total[5m])) by (job)
 ----
 
-* Nombre de métrica (`up`): devuelve el estado de los targets.
-* Filtros por etiquetas (`{mode="idle"}`): selecciona series que cumplen la condición.
-* Función sobre rango de tiempo (`rate`): calcula el cambio por segundo.
-* Agregación (`sum ... by (job)`): suma los valores por etiqueta específica.
+Suma la tasa de peticiones HTTP agrupadas por el valor de la etiqueta `job`.
 
+
+.Un ejemplo común en paneles de Grafana:
 [source,promql]
 ----
-# Valor máximo de la métrica 'cpu_usage' por instancia
-max(cpu_usage) by (instance)
-
-# Media de memoria usada
-avg(memory_usage_bytes)
+avg(rate(container_cpu_usage_seconds_total{namespace="monitoring"}[5m])) by (pod)
 ----
 
-* Funciones comunes: `sum()`, `avg()`, `max()`, `min()`, `count()`.
-* Agrupación con `by (etiqueta1, etiqueta2)` para segmentar resultados.
-
-[source,promql]
-----
-# Uso de CPU dividido entre número de núcleos
-cpu_usage / cpu_cores
-
-# Series que cumplen condición lógica
-up == 1 and job == "api"
-----
-
-* Operadores: `+`, `-`, `*`, `/`, `%`, `==`, `!=`, `<`, `>`, `and`, `or`, `unless`.
-
-[source,promql]
-----
-# Predicción lineal de una métrica en una hora (3600 segundos)
-predict_linear(http_requests_total[1h], 3600)
-
-# Percentil 95 en un histograma
-histogram_quantile(0.95, rate(request_duration_seconds_bucket[5m]))
-----
-
-* Funciones específicas para análisis temporal y estadístico.
-* Permiten pronosticar, calcular percentiles, tasas, y más.
-
-[source,promql]
-----
-# Valores de la última hora de la métrica 'http_requests_total'
-http_requests_total[1h]
-----
-
-* Los corchetes `[1h]`, `[5m]`, etc., indican que la función o consulta trabaja sobre ese intervalo.
+Muestra el promedio de uso de CPU por `pod` dentro del namespace `monitoring`.
 
 ==== Buenas prácticas
 
@@ -3802,87 +3787,6 @@ http_requests_total[1h]
 - Permite crear dashboards personalizados para visualizar el uso de CPU, memoria, estado de pods, tráfico de red, latencia, etc.
 - Soporta alertas visuales y notificaciones integradas.
 
-==== Despliegue de Grafana con Helm
-
-La forma más sencilla de instalar Grafana en Kubernetes es usando el mismo chart de Helm que instala Prometheus (kube-prometheus-stack), ya que incluye Grafana preconfigurado.
-
-[source,bash]
-----
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
-helm install prometheus prometheus-community/kube-prometheus-stack
-----
-
-Esto desplegará Grafana junto con Prometheus y otros componentes en el clúster.
-
-==== Acceso a la interfaz de Grafana
-
-Para acceder a la interfaz web de Grafana desde tu máquina local:
-
-[source,bash]
-----
-kubectl port-forward svc/prometheus-grafana 3000:80
-# Luego abre http://localhost:3000 en tu navegador
-----
-
-.Para obtener los datos de acceso:
-[source,bash]
-----
-kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-user}" | base64 --decode; echo
-kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
-----
-
-El usuario y contraseña por defecto suelen ser `admin` / `prom-operator` (puedes consultarlo en los secrets del namespace).
-
-==== Dashboards recomendados
-
-- *Kubernetes / Compute Resources / Cluster*: Uso de CPU y memoria por nodo y por pod.
-- *Kubernetes / Networking / Namespace (Pods)*: Tráfico de red por namespace y pod.
-- *Kubernetes / Resources / Persistent Volumes*: Estado y uso de volúmenes persistentes.
-- *Custom dashboards*: Puedes crear dashboards personalizados para tus aplicaciones, servicios o métricas específicas.
-
-Puedes importar dashboards desde https://grafana.com/grafana/dashboards/ usando el ID correspondiente.
-
-==== Ejemplo de configuración de datasource en Grafana
-
-Si despliegas Grafana por separado, debes configurar Prometheus como fuente de datos:
-
-.1. Accede a Grafana y ve a *Configuration > Data Sources*.
-.2. Añade una nueva fuente de tipo *Prometheus*.
-.3. Usa la URL interna del servicio Prometheus, por ejemplo: `http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090`.
-
-==== Buenas prácticas
-
-- Protege el acceso a Grafana con autenticación y, si es posible, Single Sign-On (SSO).
-- Usa dashboards compartidos para equipos de desarrollo, operaciones y negocio.
-- Automatiza la provisión de dashboards usando ConfigMaps o el API de Grafana.
-- Configura alertas visuales y notificaciones para eventos críticos.
-- Versiona y documenta los dashboards más importantes.
-
-
-=== Visualización con Grafana
-
-*Grafana* es la herramienta más popular para la visualización de métricas y datos de monitorización en Kubernetes. Permite crear dashboards interactivos y personalizables a partir de las métricas recolectadas por Prometheus u otras fuentes, facilitando el análisis visual del estado y rendimiento del clúster y las aplicaciones.
-
-==== ¿Cómo funciona Grafana en Kubernetes?
-
-- Grafana se despliega como un pod dentro del clúster, generalmente junto con Prometheus.
-- Se conecta a Prometheus (u otras fuentes de datos) para consultar y graficar métricas.
-- Permite crear dashboards personalizados para visualizar el uso de CPU, memoria, estado de pods, tráfico de red, latencia, etc.
-- Soporta alertas visuales y notificaciones integradas.
-
-==== Despliegue de Grafana con Helm
-
-La forma más sencilla de instalar Grafana en Kubernetes es usando el mismo chart de Helm que instala Prometheus (kube-prometheus-stack), ya que incluye Grafana preconfigurado.
-
-[source,bash]
-----
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
-helm install prometheus prometheus-community/kube-prometheus-stack
-----
-
-Esto desplegará Grafana junto con Prometheus y otros componentes en el clúster.
 
 ==== Acceso a la interfaz de Grafana
 

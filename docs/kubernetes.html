@@ -711,9 +711,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_cómo_funciona_prometheus_en_kubernetes">¿Cómo funciona Prometheus en Kubernetes?</a></li>
 <li><a href="#_despliegue_de_prometheus_con_helm">Despliegue de Prometheus con Helm</a></li>
-<li><a href="#_exponer_la_interfaz_web_de_prometheus">Exponer la interfaz web de Prometheus</a></li>
-<li><a href="#_monitorización_de_aplicaciones_personalizadas">Monitorización de aplicaciones personalizadas</a></li>
-<li><a href="#_alertas_con_alertmanager">Alertas con Alertmanager</a></li>
+<li><a href="#_despliegue_de_grafana_con_helm">Despliegue de Grafana con Helm</a></li>
 <li><a href="#_consultas_promql_prometheus_query_language">Consultas PromQL (Prometheus Query Language)</a></li>
 <li><a href="#_buenas_prácticas_16">Buenas prácticas</a></li>
 </ul>
@@ -721,21 +719,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_visualización_con_grafana">Visualización con Grafana</a>
 <ul class="sectlevel3">
 <li><a href="#_cómo_funciona_grafana_en_kubernetes">¿Cómo funciona Grafana en Kubernetes?</a></li>
-<li><a href="#_despliegue_de_grafana_con_helm">Despliegue de Grafana con Helm</a></li>
 <li><a href="#_acceso_a_la_interfaz_de_grafana">Acceso a la interfaz de Grafana</a></li>
 <li><a href="#_dashboards_recomendados">Dashboards recomendados</a></li>
 <li><a href="#_ejemplo_de_configuración_de_datasource_en_grafana">Ejemplo de configuración de datasource en Grafana</a></li>
 <li><a href="#_buenas_prácticas_17">Buenas prácticas</a></li>
-</ul>
-</li>
-<li><a href="#_visualización_con_grafana_2">Visualización con Grafana</a>
-<ul class="sectlevel3">
-<li><a href="#_cómo_funciona_grafana_en_kubernetes_2">¿Cómo funciona Grafana en Kubernetes?</a></li>
-<li><a href="#_despliegue_de_grafana_con_helm_2">Despliegue de Grafana con Helm</a></li>
-<li><a href="#_acceso_a_la_interfaz_de_grafana_2">Acceso a la interfaz de Grafana</a></li>
-<li><a href="#_dashboards_recomendados_2">Dashboards recomendados</a></li>
-<li><a href="#_ejemplo_de_configuración_de_datasource_en_grafana_2">Ejemplo de configuración de datasource en Grafana</a></li>
-<li><a href="#_buenas_prácticas_18">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_trazabilidad_con_jaegerzipkin">Trazabilidad con Jaeger/Zipkin</a>
@@ -746,7 +733,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_despliegue_de_zipkin_en_kubernetes">Despliegue de Zipkin en Kubernetes</a></li>
 <li><a href="#_instrumentación_de_aplicaciones">Instrumentación de aplicaciones</a></li>
 <li><a href="#_integración_con_service_mesh_istio">Integración con Service Mesh (Istio)</a></li>
-<li><a href="#_buenas_prácticas_19">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_18">Buenas prácticas</a></li>
 <li><a href="#_resumen">Resumen</a></li>
 </ul>
 </li>
@@ -756,7 +743,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ejemplo_de_regla_de_alerta_en_prometheus">Ejemplo de regla de alerta en Prometheus</a></li>
 <li><a href="#_configuración_básica_de_alertmanager">Configuración básica de Alertmanager</a></li>
 <li><a href="#_acceso_y_pruebas_de_alertmanager">Acceso y pruebas de Alertmanager</a></li>
-<li><a href="#_buenas_prácticas_20">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_19">Buenas prácticas</a></li>
 </ul>
 </li>
 </ul>
@@ -769,7 +756,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_instalación_de_helm">Instalación de Helm</a></li>
 <li><a href="#_primeros_pasos_con_helm">Primeros pasos con Helm</a></li>
 <li><a href="#_estructura_básica_de_un_chart">Estructura básica de un chart</a></li>
-<li><a href="#_buenas_prácticas_21">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_20">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_charts_y_repositorios">Charts y repositorios</a>
@@ -779,7 +766,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_instalación_de_aplicaciones_desde_un_repositorio">Instalación de aplicaciones desde un repositorio</a></li>
 <li><a href="#_versionado_y_actualización_de_charts">Versionado y actualización de charts</a></li>
 <li><a href="#_creación_de_repositorios_privados">Creación de repositorios privados</a></li>
-<li><a href="#_buenas_prácticas_22">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_21">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_creación_de_charts_personalizados">Creación de charts personalizados</a>
@@ -789,7 +776,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_personalización_de_plantillas">Personalización de plantillas</a></li>
 <li><a href="#_instalación_y_prueba_del_chart_personalizado">Instalación y prueba del chart personalizado</a></li>
 <li><a href="#_uso_de_helpers_y_funciones">Uso de helpers y funciones</a></li>
-<li><a href="#_buenas_prácticas_23">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_22">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_gestión_del_ciclo_de_vida_de_aplicaciones">Gestión del ciclo de vida de aplicaciones</a>
@@ -797,7 +784,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_fases_del_ciclo_de_vida_de_una_aplicación_en_kubernetes">Fases del ciclo de vida de una aplicación en Kubernetes</a></li>
 <li><a href="#_ejemplo_de_ciclo_de_vida_con_helm">Ejemplo de ciclo de vida con Helm</a></li>
 <li><a href="#_integración_con_cicd">Integración con CI/CD</a></li>
-<li><a href="#_buenas_prácticas_24">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_23">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_integraciones_con_cicd">Integraciones con CI/CD</a>
@@ -807,7 +794,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ejemplo_de_pipeline_de_cicd_con_gitlab_ci">Ejemplo de pipeline de CI/CD con GitLab CI</a></li>
 <li><a href="#_ejemplo_de_pipeline_con_github_actions">Ejemplo de pipeline con GitHub Actions</a></li>
 <li><a href="#_gitops_despliegue_continuo_basado_en_git">GitOps: despliegue continuo basado en Git</a></li>
-<li><a href="#_buenas_prácticas_25">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_24">Buenas prácticas</a></li>
 </ul>
 </li>
 </ul>
@@ -819,7 +806,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_cómo_funcionan_los_operadores">¿Cómo funcionan los operadores?</a></li>
 <li><a href="#_ventajas_de_usar_operadores">Ventajas de usar operadores</a></li>
 <li><a href="#_ejemplo_de_uso_de_un_operador">Ejemplo de uso de un operador</a></li>
-<li><a href="#_buenas_prácticas_26">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_25">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_operator_framework">Operator Framework</a>
@@ -828,7 +815,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_por_qué_usar_operator_framework">¿Por qué usar Operator Framework?</a></li>
 <li><a href="#_ejemplo_de_creación_de_un_operador_con_operator_sdk">Ejemplo de creación de un operador con Operator SDK</a></li>
 <li><a href="#_operator_lifecycle_manager_olm">Operator Lifecycle Manager (OLM)</a></li>
-<li><a href="#_buenas_prácticas_27">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_26">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_casos_de_uso_y_ejemplos_comunes">Casos de uso y ejemplos comunes</a>
@@ -839,14 +826,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_4_automatización_de_certificados_y_seguridad">4. Automatización de certificados y seguridad</a></li>
 <li><a href="#_5_integración_con_servicios_cloud_y_saas">5. Integración con servicios cloud y SaaS</a></li>
 <li><a href="#_6_ejemplo_básico_operador_personalizado_para_reinicio_de_pods">6. Ejemplo básico: operador personalizado para reinicio de pods</a></li>
-<li><a href="#_buenas_prácticas_28">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_27">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_creación_de_operadores_básicos">Creación de operadores básicos</a>
 <ul class="sectlevel3">
 <li><a href="#_pasos_para_crear_un_operador_básico_con_operator_sdk">Pasos para crear un operador básico con Operator SDK</a></li>
 <li><a href="#_ejemplo_mínimo_de_crd_y_lógica_de_reconciliación">Ejemplo mínimo de CRD y lógica de reconciliación</a></li>
-<li><a href="#_buenas_prácticas_29">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_28">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_automatización_de_tareas_complejas">Automatización de tareas complejas</a>
@@ -854,7 +841,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ejemplos_de_automatización_con_operadores">Ejemplos de automatización con operadores</a></li>
 <li><a href="#_ejemplo_backup_automático_con_un_operador_de_base_de_datos">Ejemplo: backup automático con un operador de base de datos</a></li>
 <li><a href="#_ejemplo_rotación_automática_de_certificados_con_cert_manager">Ejemplo: rotación automática de certificados con cert-manager</a></li>
-<li><a href="#_buenas_prácticas_30">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_29">Buenas prácticas</a></li>
 </ul>
 </li>
 </ul>
@@ -867,7 +854,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_herramientas_populares_para_pipelines_de_cicd_en_kubernetes">Herramientas populares para pipelines de CI/CD en Kubernetes</a></li>
 <li><a href="#_ejemplo_básico_de_pipeline_con_gitlab_ci">Ejemplo básico de pipeline con GitLab CI</a></li>
 <li><a href="#_ejemplo_básico_de_pipeline_con_github_actions">Ejemplo básico de pipeline con GitHub Actions</a></li>
-<li><a href="#_buenas_prácticas_31">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_30">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_gitops_con_argocdflux">GitOps con ArgoCD/Flux</a>
@@ -876,7 +863,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ventajas_de_gitops">Ventajas de GitOps</a></li>
 <li><a href="#_ejemplo_de_flujo_gitops_con_argocd">Ejemplo de flujo GitOps con ArgoCD</a></li>
 <li><a href="#_ejemplo_de_flujo_gitops_con_flux">Ejemplo de flujo GitOps con Flux</a></li>
-<li><a href="#_buenas_prácticas_32">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_31">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_estrategias_de_despliegue_bluegreen_canary">Estrategias de despliegue (blue/green, canary)</a>
@@ -884,14 +871,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_bluegreen_deployment_2">Blue/Green Deployment</a></li>
 <li><a href="#_canary_deployment_2">Canary Deployment</a></li>
 <li><a href="#_ab_testing_2">A/B Testing</a></li>
-<li><a href="#_buenas_prácticas_33">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_32">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_integración_con_herramientas_populares">Integración con herramientas populares</a>
 <ul class="sectlevel3">
 <li><a href="#_herramientas_de_integración_más_utilizadas">Herramientas de integración más utilizadas</a></li>
 <li><a href="#_ejemplo_de_integración_en_un_pipeline_de_cicd">Ejemplo de integración en un pipeline de CI/CD</a></li>
-<li><a href="#_buenas_prácticas_34">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_33">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_automatización_de_pruebas_y_despliegues">Automatización de pruebas y despliegues</a>
@@ -899,7 +886,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_fases_típicas_de_automatización">Fases típicas de automatización</a></li>
 <li><a href="#_ejemplo_de_pipeline_automatizado_gitlab_ci">Ejemplo de pipeline automatizado (GitLab CI)</a></li>
 <li><a href="#_herramientas_recomendadas">Herramientas recomendadas</a></li>
-<li><a href="#_buenas_prácticas_35">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_34">Buenas prácticas</a></li>
 </ul>
 </li>
 </ul>
@@ -935,7 +922,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_backup_de_bases_de_datos_en_contenedores">Backup de bases de datos en contenedores</a></li>
 <li><a href="#_automatización_y_almacenamiento_seguro">Automatización y almacenamiento seguro</a></li>
 <li><a href="#_pruebas_de_recuperación">Pruebas de recuperación</a></li>
-<li><a href="#_buenas_prácticas_36">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_35">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_optimización_de_recursos_y_costes">Optimización de recursos y costes</a>
@@ -946,7 +933,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_optimización_de_almacenamiento">Optimización de almacenamiento</a></li>
 <li><a href="#_optimización_de_red">Optimización de red</a></li>
 <li><a href="#_optimización_de_costes_en_la_nube">Optimización de costes en la nube</a></li>
-<li><a href="#_buenas_prácticas_37">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_36">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_troubleshooting_y_resolución_de_problemas">Troubleshooting y resolución de problemas</a>
@@ -957,7 +944,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_troubleshooting_de_red">Troubleshooting de red</a></li>
 <li><a href="#_troubleshooting_de_almacenamiento">Troubleshooting de almacenamiento</a></li>
 <li><a href="#_herramientas_útiles">Herramientas útiles</a></li>
-<li><a href="#_buenas_prácticas_38">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_37">Buenas prácticas</a></li>
 </ul>
 </li>
 </ul>
@@ -971,7 +958,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ventajas_de_usar_crds">Ventajas de usar CRDs</a></li>
 <li><a href="#_operadores_y_crds">Operadores y CRDs</a></li>
 <li><a href="#_gestión_y_actualización_de_crds">Gestión y actualización de CRDs</a></li>
-<li><a href="#_buenas_prácticas_39">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_38">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_api_aggregation">API Aggregation</a>
@@ -983,7 +970,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_ejemplo_de_manifiesto_de_apiservice">Ejemplo de manifiesto de APIService</a></li>
 <li><a href="#_ventajas_y_casos_de_uso_2">Ventajas y casos de uso</a></li>
 <li><a href="#_consideraciones_de_seguridad">Consideraciones de seguridad</a></li>
-<li><a href="#_buenas_prácticas_40">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_39">Buenas prácticas</a></li>
 </ul>
 </li>
 <li><a href="#_servicios_en_la_nube_basados_en_kubernetes">Servicios en la nube basados en Kubernetes</a>
@@ -1012,7 +999,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_service_mesh_y_networking">Service Mesh y networking</a></li>
 <li><a href="#_desarrollo_y_productividad">Desarrollo y productividad</a></li>
 <li><a href="#_ejemplo_de_integración_helm">Ejemplo de integración: Helm</a></li>
-<li><a href="#_buenas_prácticas_41">Buenas prácticas</a></li>
+<li><a href="#_buenas_prácticas_40">Buenas prácticas</a></li>
 </ul>
 </li>
 </ul>
@@ -6361,237 +6348,212 @@ brew install aquasecurity/trivy/trivy</code></pre>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
-helm install prometheus prometheus-community/kube-prometheus-stack</code></pre>
+helm install prometheus prometheus-community/prometheus --namespace monitoring --create-namespace</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Esto desplegará todo el stack de monitorización en el namespace por defecto. Puedes personalizar la instalación usando valores de Helm.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_exponer_la_interfaz_web_de_prometheus">Exponer la interfaz web de Prometheus</h4>
-<div class="paragraph">
-<p>Para acceder a la interfaz web de Prometheus desde tu máquina local:</p>
+<p>Esto desplegará todo el stack de monitorización en el namespace monitoring. Puedes personalizar la instalación usando valores de Helm.</p>
 </div>
 <div class="listingblock">
+<div class="title">Para comprobar el estado de instalación:</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl port-forward svc/prometheus-kube-prometheus-prometheus 9090:9090
-# Luego abre http://localhost:9090 en tu navegador</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_monitorización_de_aplicaciones_personalizadas">Monitorización de aplicaciones personalizadas</h4>
-<div class="paragraph">
-<p>Para que Prometheus recolecte métricas de tus aplicaciones, estas deben exponer un endpoint <code>/metrics</code> en formato Prometheus. Puedes usar librerías como <code>prometheus-client</code> en Python, Go, Java, etc.</p>
-</div>
-<div class="listingblock">
-<div class="title">Ejemplo de ServiceMonitor para una aplicación:</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: mi-app-monitor
-  labels:
-    release: prometheus
-spec:
-  selector:
-    matchLabels:
-      app: mi-app
-  endpoints:
-    - port: http
-      path: /metrics
-      interval: 15s
-  type: LoadBalancer</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl get all -n monitoring</code></pre>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Asegúrate de que el Service de tu aplicación tenga el label <code>app: mi-app</code> y exponga el puerto adecuado.</div>
+<div class="title">Para acceder a la interfaz web de Prometheus:</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl expose deployment mi-app --type=ClusterIP --name=mi-app --port=80 --target-port=8080</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl port-forward svc/prometheus-server -n monitoring 9090:80</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_alertas_con_alertmanager">Alertas con Alertmanager</h4>
+<h4 id="_despliegue_de_grafana_con_helm">Despliegue de Grafana con Helm</h4>
 <div class="paragraph">
-<p>Prometheus puede enviar alertas a través de Alertmanager cuando se cumplen ciertas condiciones (por ejemplo, alto uso de CPU, pods caídos, etc.).</p>
+<p>Grafana es una herramienta de visualización que se integra con Prometheus para crear dashboards y paneles de control. Para desplegar Grafana en Kubernetes, puedes usar el chart oficial de Helm.</p>
 </div>
 <div class="listingblock">
-<div class="title">Ejemplo de regla de alerta:</div>
+<div class="title">Para añadir el repositorio de Grafana:</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: high-cpu-usage
-  labels:
-    release: prometheus
-spec:
-  groups:
-    - name: example.rules
-      rules:
-        - alert: HighCpuUsage
-          expr: sum(rate(container_cpu_usage_seconds_total{image!=""}[5m])) by (pod) &gt; 0.8
-          for: 5m
-          labels:
-            severity: warning
-          annotations:
-            summary: "Alto uso de CPU en el pod"
-            description: "El pod {{ $labels.pod }} está usando más del 80% de CPU durante 5 minutos."</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Alertmanager puede integrarse con email, Slack, PagerDuty y otros sistemas de notificación.</p>
+<div class="listingblock">
+<div class="title">Despliega Grafana:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">helm install grafana grafana/grafana --namespace monitoring</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Para comprobar el estado de instalación:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl get all -n monitoring</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Para acceder a la interfaz web de Grafana:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl port-forward svc/grafana -n monitoring 3000:80</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Para obtener el password de admin:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl get secret grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode ; echo</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_consultas_promql_prometheus_query_language">Consultas PromQL (Prometheus Query Language)</h4>
+<div class="ulist">
+<div class="title">Prometheus guarda datos en series temporales, cada una compuesta por:</div>
+<ul>
+<li>
+<p>Un nombre de métrica, por ejemplo: <code>http_requests_total</code>, <code>node_cpu_seconds_total</code>, etc.</p>
+</li>
+<li>
+<p>Un conjunto de etiquetas (labels) en pares clave-valor, por ejemplo: <code>{method="GET", status="200"}</code></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Una consulta simple retorna las series que coinciden con un filtro:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql">http_requests_total{method="GET"}</code></pre>
+</div>
+</div>
 <div class="paragraph">
-<p>PromQL es el lenguaje de consulta especializado de Prometheus para trabajar con series temporales de métricas. Su sintaxis es funcional y permite seleccionar, filtrar, agregar y transformar datos.</p>
+<p>Esta consulta devuelve todas las métricas <code>http_requests_total</code> cuyo <code>method</code> sea <code>GET</code>.</p>
 </div>
 <div class="ulist">
-<div class="title">Las características principales de la sintaxis PromQL:</div>
+<div class="title">PromQL trabaja con dos tipos principales de vectores:</div>
 <ul>
 <li>
-<p>Cada expresión PromQL evalúa a un vector de tiempo o un escalar.</p>
+<p>Vector instantáneo: devuelve el último valor de cada serie.</p>
 </li>
 <li>
-<p>La sintaxis es sensible a mayúsculas y minúsculas.</p>
-</li>
-<li>
-<p>PromQL es muy potente para construir alertas y dashboards en Prometheus y Grafana.</p>
+<p>Vector de rango: contiene los valores de una métrica dentro de un intervalo definido con corchetes <code>[]</code>.</p>
 </li>
 </ul>
+</div>
+<div class="listingblock">
+<div class="title">Ejemplo:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql">http_requests_total[5m]</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>En Prometheus, un <strong>job</strong> es una etiqueta clave que se utiliza para identificar un conjunto de objetivos (targets) relacionados que son monitoreados juntos. Cada job representa una tarea o grupo de tareas configuradas en el archivo de scrape de Prometheus.</p>
+<p>Obtiene los valores de los últimos cinco minutos.</p>
 </div>
 <div class="ulist">
+<div class="title">PromQL incluye diversas funciones matemáticas y estadísticas, como:</div>
 <ul>
 <li>
-<p>Un <strong>job</strong> es definido en la configuración de Prometheus para agrupar una o varias instancias o targets.</p>
+<p><code>rate(metric[interval])</code> → tasa de cambio por segundo.</p>
 </li>
 <li>
-<p>Prometheus añade automáticamente la etiqueta <code>job</code> a todas las métricas que recoge para identificar a qué conjunto pertenecen.</p>
+<p><code>increase(metric[interval])</code> → incremento total en ese periodo.</p>
+</li>
+<li>
+<p><code>sum()</code>, <code>avg()</code>, <code>max()</code>, <code>min()</code> → funciones de agregación.</p>
+</li>
+<li>
+<p><code>count()</code> → cuenta el número de series.</p>
+</li>
+<li>
+<p><code>stddev()</code>, <code>stdvar()</code> → desviación estándar y varianza.</p>
+</li>
+<li>
+<p><code>topk()</code>, <code>bottomk()</code> → los k valores más altos o bajos.</p>
+</li>
+<li>
+<p><code>histogram_quantile()</code> → calcula cuantiles a partir de histogramas.</p>
+</li>
+<li>
+<p><code>label_replace()</code> → modifica etiquetas usando expresiones regulares.</p>
+</li>
+<li>
+<p><code>abs()</code>, <code>ceil()</code>, <code>floor()</code>, <code>round()</code> → funciones matemáticas básicas.</p>
+</li>
+<li>
+<p><code>time()</code> → devuelve el timestamp actual en segundos.</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
-<div class="title">Ejemplo típico en configuración YAML:</div>
+<div class="title">Ejemplo típico:</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">scrape_configs:
-  - job_name: "webserver"
-    static_configs:
-      - targets: ["localhost:8080", "localhost:8081"]</code></pre>
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql">rate(http_requests_total[5m])</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Calcula la tasa de peticiones HTTP por segundo durante los últimos cinco minutos.</p>
 </div>
 <div class="listingblock">
-<div class="title">Puedes filtrar las métricas por el valor de la etiqueta <code>job</code> para consultar solo las series que pertenecen a ese conjunto.</div>
+<div class="title">Es posible filtrar resultados según etiquetas específicas:</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql">http_requests_total{job="webserver"}
-up{job=~"apiserver|dbserver"}</code></pre>
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql">node_cpu_seconds_total{job="backend", mode!="idle"}</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Filtra las métricas donde <code>job</code> sea backend y <code>mode</code> no sea idle.</p>
+</div>
+<div class="listingblock">
+<div class="title">También se pueden usar expresiones regulares:</div>
+<div class="content">
+<pre>http_requests_total{status=~"4.."}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Selecciona métricas con códigos de estado HTTP que comienzan por 4.</p>
 </div>
 <div class="ulist">
+<div class="title">PromQL dispone de operadores aritméticos y lógicos:</div>
 <ul>
 <li>
-<p>Aquí <code>job="webserver"</code> selecciona métricas sólo del job "webserver".</p>
+<p>Aritméticos: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code></p>
 </li>
 <li>
-<p>También puedes usar expresiones regulares para filtrar múltiples jobs con <code>=~</code>.</p>
+<p>Lógicos: <code>and</code>, <code>or</code>, <code>unless</code></p>
+</li>
+<li>
+<p>Comparación: <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&#8656;</code></p>
+</li>
+<li>
+<p>Agrupación: <code>by</code>, <code>without</code></p>
+</li>
+<li>
+<p><code>on</code>, <code>ignoring</code></p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
+<div class="title">Ejemplo:</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql">up
-node_cpu_seconds_total{mode="idle"}
-rate(http_requests_total[5m])
-sum(rate(http_requests_total[5m])) by (job)</code></pre>
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql">(cpu_usage_user + cpu_usage_system) / cpu_count</code></pre>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Nombre de métrica (<code>up</code>): devuelve el estado de los targets.</p>
-</li>
-<li>
-<p>Filtros por etiquetas (<code>{mode="idle"}</code>): selecciona series que cumplen la condición.</p>
-</li>
-<li>
-<p>Función sobre rango de tiempo (<code>rate</code>): calcula el cambio por segundo.</p>
-</li>
-<li>
-<p>Agregación (<code>sum &#8230;&#8203; by (job)</code>): suma los valores por etiqueta específica.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Calcula el uso total de CPU por núcleo.</p>
 </div>
 <div class="listingblock">
+<div class="title">Las funciones de agregación permiten agrupar métricas por etiquetas:</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql"># Valor máximo de la métrica 'cpu_usage' por instancia
-max(cpu_usage) by (instance)
-
-# Media de memoria usada
-avg(memory_usage_bytes)</code></pre>
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql">sum(rate(http_requests_total[5m])) by (job)</code></pre>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Funciones comunes: <code>sum()</code>, <code>avg()</code>, <code>max()</code>, <code>min()</code>, <code>count()</code>.</p>
-</li>
-<li>
-<p>Agrupación con <code>by (etiqueta1, etiqueta2)</code> para segmentar resultados.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Suma la tasa de peticiones HTTP agrupadas por el valor de la etiqueta <code>job</code>.</p>
 </div>
 <div class="listingblock">
+<div class="title">Un ejemplo común en paneles de Grafana:</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql"># Uso de CPU dividido entre número de núcleos
-cpu_usage / cpu_cores
-
-# Series que cumplen condición lógica
-up == 1 and job == "api"</code></pre>
+<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql">avg(rate(container_cpu_usage_seconds_total{namespace="monitoring"}[5m])) by (pod)</code></pre>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Operadores: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>and</code>, <code>or</code>, <code>unless</code>.</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql"># Predicción lineal de una métrica en una hora (3600 segundos)
-predict_linear(http_requests_total[1h], 3600)
-
-# Percentil 95 en un histograma
-histogram_quantile(0.95, rate(request_duration_seconds_bucket[5m]))</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Funciones específicas para análisis temporal y estadístico.</p>
-</li>
-<li>
-<p>Permiten pronosticar, calcular percentiles, tasas, y más.</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-promql hljs" data-lang="promql"># Valores de la última hora de la métrica 'http_requests_total'
-http_requests_total[1h]</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Los corchetes <code>[1h]</code>, <code>[5m]</code>, etc., indican que la función o consulta trabaja sobre ese intervalo.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Muestra el promedio de uso de CPU por <code>pod</code> dentro del namespace <code>monitoring</code>.</p>
 </div>
 </div>
 <div class="sect3">
@@ -6642,22 +6604,6 @@ http_requests_total[1h]</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_despliegue_de_grafana_con_helm">Despliegue de Grafana con Helm</h4>
-<div class="paragraph">
-<p>La forma más sencilla de instalar Grafana en Kubernetes es usando el mismo chart de Helm que instala Prometheus (kube-prometheus-stack), ya que incluye Grafana preconfigurado.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
-helm install prometheus prometheus-community/kube-prometheus-stack</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Esto desplegará Grafana junto con Prometheus y otros componentes en el clúster.</p>
-</div>
-</div>
-<div class="sect3">
 <h4 id="_acceso_a_la_interfaz_de_grafana">Acceso a la interfaz de Grafana</h4>
 <div class="paragraph">
 <p>Para acceder a la interfaz web de Grafana desde tu máquina local:</p>
@@ -6666,13 +6612,6 @@ helm install prometheus prometheus-community/kube-prometheus-stack</code></pre>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl port-forward svc/prometheus-grafana 3000:80
 # Luego abre http://localhost:3000 en tu navegador</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Para obtener los datos de acceso:</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-user}" | base64 --decode; echo
-kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -6709,113 +6648,6 @@ kubectl get secret prometheus-grafana -o jsonpath="{.data.admin-password}" | bas
 </div>
 <div class="sect3">
 <h4 id="_buenas_prácticas_17">Buenas prácticas</h4>
-<div class="ulist">
-<div class="title">3. Usa la URL interna del servicio Prometheus, por ejemplo: <code><a href="http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090" class="bare">http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090</a></code>.</div>
-<ul>
-<li>
-<p>Protege el acceso a Grafana con autenticación y, si es posible, Single Sign-On (SSO).</p>
-</li>
-<li>
-<p>Usa dashboards compartidos para equipos de desarrollo, operaciones y negocio.</p>
-</li>
-<li>
-<p>Automatiza la provisión de dashboards usando ConfigMaps o el API de Grafana.</p>
-</li>
-<li>
-<p>Configura alertas visuales y notificaciones para eventos críticos.</p>
-</li>
-<li>
-<p>Versiona y documenta los dashboards más importantes.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_visualización_con_grafana_2">Visualización con Grafana</h3>
-<div class="paragraph">
-<p><strong>Grafana</strong> es la herramienta más popular para la visualización de métricas y datos de monitorización en Kubernetes. Permite crear dashboards interactivos y personalizables a partir de las métricas recolectadas por Prometheus u otras fuentes, facilitando el análisis visual del estado y rendimiento del clúster y las aplicaciones.</p>
-</div>
-<div class="sect3">
-<h4 id="_cómo_funciona_grafana_en_kubernetes_2">¿Cómo funciona Grafana en Kubernetes?</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Grafana se despliega como un pod dentro del clúster, generalmente junto con Prometheus.</p>
-</li>
-<li>
-<p>Se conecta a Prometheus (u otras fuentes de datos) para consultar y graficar métricas.</p>
-</li>
-<li>
-<p>Permite crear dashboards personalizados para visualizar el uso de CPU, memoria, estado de pods, tráfico de red, latencia, etc.</p>
-</li>
-<li>
-<p>Soporta alertas visuales y notificaciones integradas.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_despliegue_de_grafana_con_helm_2">Despliegue de Grafana con Helm</h4>
-<div class="paragraph">
-<p>La forma más sencilla de instalar Grafana en Kubernetes es usando el mismo chart de Helm que instala Prometheus (kube-prometheus-stack), ya que incluye Grafana preconfigurado.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
-helm install prometheus prometheus-community/kube-prometheus-stack</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Esto desplegará Grafana junto con Prometheus y otros componentes en el clúster.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_acceso_a_la_interfaz_de_grafana_2">Acceso a la interfaz de Grafana</h4>
-<div class="paragraph">
-<p>Para acceder a la interfaz web de Grafana desde tu máquina local:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">kubectl port-forward svc/prometheus-grafana 3000:80
-# Luego abre http://localhost:3000 en tu navegador</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>El usuario y contraseña por defecto suelen ser <code>admin</code> / <code>prom-operator</code> (puedes consultarlo en los secrets del namespace).</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_dashboards_recomendados_2">Dashboards recomendados</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Kubernetes / Compute Resources / Cluster</strong>: Uso de CPU y memoria por nodo y por pod.</p>
-</li>
-<li>
-<p><strong>Kubernetes / Networking / Namespace (Pods)</strong>: Tráfico de red por namespace y pod.</p>
-</li>
-<li>
-<p><strong>Kubernetes / Resources / Persistent Volumes</strong>: Estado y uso de volúmenes persistentes.</p>
-</li>
-<li>
-<p><strong>Custom dashboards</strong>: Puedes crear dashboards personalizados para tus aplicaciones, servicios o métricas específicas.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Puedes importar dashboards desde <a href="https://grafana.com/grafana/dashboards/" class="bare">https://grafana.com/grafana/dashboards/</a> usando el ID correspondiente.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_ejemplo_de_configuración_de_datasource_en_grafana_2">Ejemplo de configuración de datasource en Grafana</h4>
-<div class="paragraph">
-<p>Si despliegas Grafana por separado, debes configurar Prometheus como fuente de datos:</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_buenas_prácticas_18">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">3. Usa la URL interna del servicio Prometheus, por ejemplo: <code><a href="http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090" class="bare">http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090</a></code>.</div>
 <ul>
@@ -6962,7 +6794,7 @@ with tracer.start_as_current_span("mi-operacion"):
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_19">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_18">Buenas prácticas</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -7086,7 +6918,7 @@ receivers:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_20">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_19">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Aquí hay algunas recomendaciones para configurar alertas efectivas en Kubernetes:</div>
 <ul>
@@ -7267,7 +7099,7 @@ helm repo update</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_21">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_20">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Algunas recomendaciones para trabajar con Helm y charts:</div>
 <ul>
@@ -7417,7 +7249,7 @@ helm install mi-release bitnami/nginx -f valores-personalizados.yaml</code></pre
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_22">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_21">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">A continuación, algunas recomendaciones para trabajar con Helm y repositorios de charts:</div>
 <ul>
@@ -7569,7 +7401,7 @@ helm install mi-release ./mi-chart -f valores-dev.yaml</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_23">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_22">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Para crear charts personalizados de calidad, sigue estas recomendaciones:</div>
 <ul>
@@ -7778,7 +7610,7 @@ deploy:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_24">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_23">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Formas de gestionar el ciclo de vida de aplicaciones en Kubernetes:</div>
 <ul>
@@ -7930,7 +7762,7 @@ jobs:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_25">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_24">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Aquí algunos consejos para integrar CI/CD con Kubernetes:</div>
 <ul>
@@ -8038,7 +7870,7 @@ spec:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_26">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_25">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Los operadores son herramientas útiles, pero deben usarse con cuidado:</div>
 <ul>
@@ -8157,7 +7989,7 @@ spec:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_27">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_26">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Las siguientes recomendaciones te ayudarán a crear y gestionar operadores de forma efectiva:</div>
 <ul>
@@ -8335,7 +8167,7 @@ spec:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_28">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_27">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Para trabajar con operadores de forma efectiva, considera las siguientes recomendaciones:</div>
 <ul>
@@ -8464,7 +8296,7 @@ func (r *DemoAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_29">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_28">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Si quieres crear un operador básico, considera las siguientes recomendaciones:</div>
 <ul>
@@ -8558,7 +8390,7 @@ spec:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_30">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_29">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Las siguientes recomendaciones te ayudarán a automatizar tareas complejas con operadores de forma efectiva:</div>
 <ul>
@@ -8694,7 +8526,7 @@ jobs:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_31">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_30">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">En la implementación de pipelines de CI/CD para Kubernetes, considera las siguientes recomendaciones:</div>
 <ul>
@@ -8858,7 +8690,7 @@ flux install</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_32">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_31">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Para implementar GitOps de forma efectiva, considera las siguientes recomendaciones:</div>
 <ul>
@@ -9061,7 +8893,7 @@ spec:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_33">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_32">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Con las estrategias de despliegue, considera las siguientes recomendaciones:</div>
 <ul>
@@ -9185,7 +9017,7 @@ deploy:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_34">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_33">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Para integrar herramientas en tus pipelines de CI/CD, considera las siguientes recomendaciones:</div>
 <ul>
@@ -9305,7 +9137,7 @@ post-deploy:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_35">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_34">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Los siguientes consejos te ayudarán a automatizar pruebas y despliegues de forma efectiva:</div>
 <ul>
@@ -9809,7 +9641,7 @@ velero backup create backup-diario --include-namespaces mi-namespace</code></pre
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_36">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_35">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Las siguientes recomendaciones te ayudarán a implementar estrategias de backup y recuperación efectivas:</div>
 <ul>
@@ -9992,7 +9824,7 @@ spec:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_37">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_36">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Para optimizar recursos y costes, considera las siguientes recomendaciones:</div>
 <ul>
@@ -10217,7 +10049,7 @@ kubectl logs mi-pod</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_38">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_37">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Las siguientes recomendaciones te ayudarán a mejorar el proceso de troubleshooting:</div>
 <ul>
@@ -10355,7 +10187,7 @@ spec:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_39">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_38">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Al trabajar con CRDs, considera las siguientes recomendaciones:</div>
 <ul>
@@ -10488,7 +10320,7 @@ spec:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_40">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_39">Buenas prácticas</h4>
 <div class="ulist">
 <div class="title">Las siguientes recomendaciones te ayudarán a implementar API Aggregation de forma efectiva:</div>
 <ul>
@@ -11133,7 +10965,7 @@ helm install mi-mysql bitnami/mysql</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_buenas_prácticas_41">Buenas prácticas</h4>
+<h4 id="_buenas_prácticas_40">Buenas prácticas</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -11263,7 +11095,7 @@ helm install mi-mysql bitnami/mysql</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-10-05 17:33:26 +0200
+Last updated 2025-10-16 13:50:18 +0200
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
